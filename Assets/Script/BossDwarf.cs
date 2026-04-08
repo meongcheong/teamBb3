@@ -11,23 +11,26 @@ public class BossDwarf : MonoBehaviour
     public Player_Status status;
     float FallingRocksPatternDamageTimer = 0;
     public Transform player;
-    public float FallingRocksPatternBoundary = 10.0f;
+    public float FallingRocksPatternBoundary = 3.0f;
     public GameObject Square;
+    float RocksDisapearTimer = 0;
 
     void Start()
     {
         
     }
 
+
     // Update is called once per frame
     void Update()
     {
         bool FallingRocksTriger = FallingRocks;
         Vector2 PlayerPosition = player.position;
+
         if (FallingRocksTriger == true)
-            {
+        {
             FallingRocksPattern(FallingRocksTriger);
-            }
+        }
 
         List<Vector2> PositionChecking()
         {
@@ -36,11 +39,11 @@ public class BossDwarf : MonoBehaviour
             {
                 GameObject SquareSpot = Instantiate(Square);
                 Vector2 Spot;
-                if(i == 0)
+                if (i == 0)
                 {
                     Spot = (Vector2)player.position;
                 }
-                else 
+                else
                 {
                     Spot = (Vector2)player.position + Random.insideUnitCircle * FallingRocksPatternBoundary;
                 }
@@ -50,7 +53,7 @@ public class BossDwarf : MonoBehaviour
             }
             return Squares;
         }
-
+        
         void FallingRocksPattern(bool FallingRocksTriger = true)
         {
 
@@ -70,7 +73,11 @@ public class BossDwarf : MonoBehaviour
 
         }
 
-    }
+       
+
+    }   
+            
+ }
     
     
-}
+

@@ -197,7 +197,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7225891906642073133, guid: cfa422dc59f19284b9b206a58cbbdb3c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -506,9 +506,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BossDwarfHP: 1000
   FallingRocks: 0
-  status: {fileID: 0}
-  player: {fileID: 0}
-  FallingRocksPatternBoundary: 10
+  status: {fileID: 97515138}
+  player: {fileID: 97515136}
+  FallingRocksPatternBoundary: 3
   Square: {fileID: 5979165727120289434, guid: 19b59aaa163ae6b458807fccab307803, type: 3}
 --- !u!212 &705426042
 SpriteRenderer:
@@ -555,7 +555,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8301887, g: 0.1527234, b: 0.1527234, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -575,7 +575,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 10, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

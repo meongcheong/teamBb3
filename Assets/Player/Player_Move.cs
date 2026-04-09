@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Player_Move : MonoBehaviour
 {
+    public Vector3 lastDir;
     public float speed = 5f;
 
     float moveX;
@@ -10,6 +11,9 @@ public class Player_Move : MonoBehaviour
     bool isDashing = false;
     public float dashSpeed = 10f;
     public float dashTime = 0.2f;
+
+    float dashCooldown = 2f;
+    float dashTimer = 0f;
 
     Player_Attack combat;
 
@@ -20,6 +24,9 @@ public class Player_Move : MonoBehaviour
 
     void Update()
     {
+        if (dashTimer > 0)
+            dashTimer -= Time.deltaTime;
+
         InputCheck();  // 입력 처리
         Move();        // 이동 처리
     }
@@ -34,6 +41,14 @@ public class Player_Move : MonoBehaviour
         if (Input.GetKey(KeyCode.A)) moveX -= 1;
         if (Input.GetKey(KeyCode.D)) moveX += 1;
 
+
+        Vector3 inputDir = new Vector3(moveX, moveY, 0);
+
+        if (inputDir != Vector3.zero)
+        {
+            lastDir = inputDir.normalized;
+        }
+
         // 평타
         if (Input.GetMouseButtonDown(0))
         {
@@ -47,10 +62,24 @@ public class Player_Move : MonoBehaviour
         }
 
         // 대시
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing)
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
+            if (isDashing)
+                return;
+
+            if (dashTimer > 0)
+            {
+                Debug.Log("대시 쿨타임 중");
+                return;
+            }
+
             Vector3 dir = new Vector3(moveX, moveY, 0).normalized;
+
+            if (dir == Vector3.zero)
+                dir = lastDir;
+
             StartCoroutine(Dash(dir));
+            dashTimer = dashCooldown;
         }
     }
 
@@ -76,4 +105,5 @@ public class Player_Move : MonoBehaviour
 
         isDashing = false;
     }
+
 }

@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 444038006}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -509,8 +509,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BossDwarfHP: 1000
   FallingRocks: 0
-  status: {fileID: 0}
-  player: {fileID: 0}
+  status: {fileID: 444038006}
+  player: {fileID: 444038010}
   FallingRocksPatternBoundary: 3
   Square: {fileID: 5979165727120289434, guid: 19b59aaa163ae6b458807fccab307803, type: 3}
 --- !u!212 &705426042

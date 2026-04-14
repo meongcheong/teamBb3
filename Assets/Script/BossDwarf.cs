@@ -5,8 +5,8 @@ using static UnityEngine.GraphicsBuffer;
 
 public class BossDwarf : MonoBehaviour
 {
-    
-    public int BossDwarfHP = 1000;
+
+    public float hp = 20f;
     public bool FallingRocks = false;
     public Player_Status status;
     float FallingRocksPatternDamageTimer = 0;
@@ -94,7 +94,20 @@ public class BossDwarf : MonoBehaviour
     }
 
    
- }
+
+    public void TakeDamage(float damage)
+    {
+        hp -= damage;
+        Debug.Log("보스 피격! 남은 HP: " + hp);
+
+        if (hp <= 0)
+        {
+            Debug.Log("보스 사망");
+            Destroy(gameObject);
+        }
+    }
+
+}
     
     
 

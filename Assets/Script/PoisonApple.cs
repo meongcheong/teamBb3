@@ -4,7 +4,7 @@ public class PoisonApple : MonoBehaviour
 {
     Vector2 direction;
 
-    public float speed = 5f;
+    public float speed = 3f;
     public float lifeTime = 3f;
 
     Rigidbody2D rigid;
@@ -29,11 +29,29 @@ public class PoisonApple : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rigid.linearVelocity = direction * speed;
+
     }
 
-    void OnCollisionEnter2D(Collision2D col)
+    bool hasHit = false;
+    void OnTriggerEnter2D(Collider2D col)
     {
-        Destroy(gameObject);
+        if (hasHit) return; // 이미 맞았으면 무시
+
+        if (col.CompareTag("Boss"))
+        {
+            hasHit = true; //  한 번만 맞게 제한
+
+            BossDwarf boss = col.GetComponent<BossDwarf>();
+
+            if (boss != null)
+            {
+                boss.TakeDamage(2f);
+            }
+
+            Destroy(gameObject);
+        }
     }
+
+
+
 }

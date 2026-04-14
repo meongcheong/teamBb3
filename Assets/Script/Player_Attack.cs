@@ -22,10 +22,6 @@ public class Player_Attack : MonoBehaviour
         if (skillTimer > 0)
             skillTimer -= Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            UseSkill();
-        }
     }
 
     // 평타

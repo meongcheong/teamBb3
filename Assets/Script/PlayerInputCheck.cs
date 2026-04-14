@@ -8,12 +8,13 @@ public class PlayerInputCheck : MonoBehaviour
     {
         if(other.CompareTag("player"))
         InputCheck = true;
+        Debug.Log("РћСп");
     }
 
     void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("player"))
-            InputCheck = false;
+            InputCheck = false; 
     }
 
 

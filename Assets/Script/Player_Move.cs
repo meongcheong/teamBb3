@@ -106,15 +106,4 @@ public class Player_Move : MonoBehaviour
         isDashing = false;
     }
 
-    // 경계 설정
-    void LateUpdate()
-    {
-        Vector3 pos = transform.position;
-
-        pos.x = Mathf.Clamp(pos.x, -8.27f, 8.25f);
-        pos.y = Mathf.Clamp(pos.y, -3.91f, 0.21f);
-
-        transform.position = pos;
-    }
-
 }

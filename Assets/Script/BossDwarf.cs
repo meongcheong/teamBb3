@@ -8,7 +8,7 @@ using static UnityEngine.Rendering.ReloadAttribute;
 public class BossDwarf : MonoBehaviour
 {
     private UseFuntion UseFuntion = new UseFuntion();
-    public float hp = 20f;
+    public float hp = 30f;
     public Transform player;
     public Player_Status status;
     public GameObject Square;

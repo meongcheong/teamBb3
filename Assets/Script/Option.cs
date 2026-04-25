@@ -8,12 +8,6 @@ public class Option : MonoBehaviour
 
     void Start()
     {
-        if (pauseUI == null || settingUI == null)
-        {
-            Debug.LogError("UI 연결 안됨! Inspector 확인해라");
-            return;
-        }
-
         pauseUI.SetActive(false);
         settingUI.SetActive(false);
         Time.timeScale = 1f;

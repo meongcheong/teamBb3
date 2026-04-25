@@ -102,17 +102,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 20
-  status: {fileID: 6930180031608738463, guid: 98dec73d89352c442bdb38ecfa94b987, type: 3}
   player: {fileID: 2640342833459280128, guid: 98dec73d89352c442bdb38ecfa94b987, type: 3}
-  Pickaxes: {fileID: 5444358601515152151, guid: cfcffc6d6eafc0346950c54c6885932d, type: 3}
-  Pickaxe: 0
-  PickaxeDamagePower: 10
-  PickaxePatternDamageTimer: 0
-  FallingRocks: 0
-  FallingRocksPatternDamageTimer: 0
-  FallingRocksPatternBoundary: 3
+  status: {fileID: 6930180031608738463, guid: 98dec73d89352c442bdb38ecfa94b987, type: 3}
   Square: {fileID: 5979165727120289434, guid: 19b59aaa163ae6b458807fccab307803, type: 3}
-  FallingRocksDamagePower: 10
+  Pickaxes: {fileID: 5444358601515152151, guid: cfcffc6d6eafc0346950c54c6885932d, type: 3}
+  InputCheck: {fileID: 196798267141144763, guid: cfcffc6d6eafc0346950c54c6885932d, type: 3}
 --- !u!61 &3591696335027843593
 BoxCollider2D:
   m_ObjectHideFlags: 0

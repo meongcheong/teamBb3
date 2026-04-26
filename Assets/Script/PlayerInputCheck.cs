@@ -4,14 +4,14 @@ using UnityEngine;
 public class PlayerInputCheck : MonoBehaviour
 {
     public bool InputCheck = false;
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter2D(Collider2D other)
     {
         if(other.CompareTag("player"))
         InputCheck = true;
         Debug.Log("РћСп");
     }
 
-    void OnTriggerExit(Collider other)
+    void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("player"))
             InputCheck = false; 

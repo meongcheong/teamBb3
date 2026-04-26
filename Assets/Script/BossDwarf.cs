@@ -16,6 +16,8 @@ public class BossDwarf : MonoBehaviour
     public PlayerInputCheck InputCheck;
     void Start()
     {
+        
+
         UseFuntion.player = player;
         UseFuntion.status = status;
         UseFuntion.Square = Square;
@@ -26,10 +28,7 @@ public class BossDwarf : MonoBehaviour
     
     void Update()
     {
-        // 1. 보스 패턴 준비 모션
-        // 2. 부채꼴 모양의 오브젝트 생성.
-        // 3. 오브젝트에 닿았을 때 감지
-        // 4. 오브젝트에 플레이어 캐릭터가 닿으면 데미지 판정
+        
         if (Input.GetKeyDown(KeyCode.Space))
         {
             UseFuntion.FallingRocksTriger = true;     //낙석패턴 트리거
@@ -80,18 +79,19 @@ public class UseFuntion
     public bool FallingRocksTriger = false;
     public float FallingRocksPatternDamageTimer = 0;
     public float FallingRocksPatternBoundary = 3.0f;
-    float RocksDisapearTimer = 0;
     bool PositionCheckingTirger = true;
     List<GameObject> RockObject;
     public float FallingRocksDamagePower = 10;
-    
-    public List<GameObject> PositionChecking()
+    float MaxY = -1.0f;
+    float MinY = -5.0f;
+    float MinDis = 1.0f;
+    public List<GameObject> FallingRockPositionChecking()
     {
         List<GameObject> Squares = new List<GameObject>();
         for (int i = 0; i < 4; i++)
         {
             GameObject SquareSpot = Object.Instantiate(Square);
-            Vector2 Spot;
+            Vector2 Spot; //<-- 오브젝트들의 위치 좌표가 존재함
             if (i == 0)
             {
                 Spot = player.position;
@@ -99,39 +99,40 @@ public class UseFuntion
             else
             {
                 Spot = (Vector2)player.position + Random.insideUnitCircle * FallingRocksPatternBoundary;
+                Spot.y = Mathf.Clamp(Spot.y, MinY, MaxY);
             }
             SquareSpot.transform.position = Spot;
             Squares.Add(SquareSpot);
 
         }
-        return Squares;
-
-
-        
-
+            return Squares;
         }
+    
     public void FallingRocksPattern()
     {
 
 
         if (PositionCheckingTirger == true)
         {
-            RockObject = PositionChecking();
+            RockObject = FallingRockPositionChecking();
         }
         PositionCheckingTirger = false;
 
         FallingRocksPatternDamageTimer = FallingRocksPatternDamageTimer + Time.deltaTime;
         if (FallingRocksPatternDamageTimer >= 3)
         {
-            if (InputCheck == true)
+            if (InputCheck.InputCheck)
             {
                 status.TakeDamage(FallingRocksDamagePower);
                 Debug.Log("적중");
             }
             FallingRocksPatternDamageTimer = 0f;
-            foreach (GameObject Obj in RockObject)
+            if (RockObject != null)
             {
-                Object.Destroy(Obj);
+                foreach (GameObject Obj in RockObject)
+                {
+                    Object.Destroy(Obj);
+                }
             }
             FallingRocksTriger = false;
             PositionCheckingTirger = true;
@@ -145,6 +146,9 @@ public class UseFuntion
     public float PickaxeDamagePower = 10;
     public float PickaxePatternDamageTimer;
     public bool PickaxeCreateTriger = false;
+    Vector2 PlayerPositionCheck;
+
+
     public void PickaxePattern()
     {
 
@@ -152,16 +156,16 @@ public class UseFuntion
         PickaxePatternDamageTimer += Time.deltaTime;
         if (PickaxeCreateTriger == true)
         {
-                if (PickaxeCreateTriger == true)
-                   
-
+                
                 PickaxeObject = Object.Instantiate(Pickaxes);
+            PickaxePositionChecking();
+            PickaxeObject.transform.position = PlayerPositionCheck;
             Object.Destroy(PickaxeObject, 4f);
         }
         PickaxeCreateTriger = false;
         if (PickaxePatternDamageTimer > 3)
         {
-            if (InputCheck == true)
+            if (InputCheck.InputCheck)
             {
                 status.TakeDamage(PickaxeDamagePower);
             }
@@ -170,7 +174,11 @@ public class UseFuntion
         }
     }
     
-
+    public Vector2 PickaxePositionChecking()
+    {
+        PlayerPositionCheck = player.transform.position;
+        return PlayerPositionCheck;
+    }
 
 }
 

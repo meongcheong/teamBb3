@@ -3,8 +3,11 @@ using UnityEngine.SceneManagement;
 
 public class Option : MonoBehaviour
 {
-    public GameObject pauseUI;
-    public GameObject settingUI;
+    public GameObject pauseUI;            // ESC 메뉴
+    public GameObject settingUI;          // 설정 전체 패널
+
+    public GameObject settingMainUI; // 설정 1
+    public GameObject settingSubUI;  // 설정 2
 
     void Start()
     {
@@ -48,13 +51,21 @@ public class Option : MonoBehaviour
         Debug.Log("RESUME");
     }
 
-    // 게임 재시작
-    public void RestartGame()
+    // 🔥 1 → 2
+    public void OpenSubSetting()
     {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        Debug.Log("RESTART");
+        settingMainUI.SetActive(false);
+        settingSubUI.SetActive(true);
     }
+
+    // 🔥 2 → 1 (뒤로가기)
+    public void BackToMainSetting()
+    {
+        settingSubUI.SetActive(false);
+        settingMainUI.SetActive(true);
+    }
+
+
 
     // 설정창 열기
     public void OpenSetting()
@@ -79,4 +90,6 @@ public class Option : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
         Debug.Log("LOBBY");
     }
+
+
 }

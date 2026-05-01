@@ -83,7 +83,7 @@ public class Player_Move : MonoBehaviour
         }
     }
 
-    void Move()
+    void Move() // 대시
     {
         if (isDashing) return;
 
@@ -91,7 +91,7 @@ public class Player_Move : MonoBehaviour
         transform.Translate(move * speed * Time.deltaTime);
     }
 
-    System.Collections.IEnumerator Dash(Vector3 dir)
+    System.Collections.IEnumerator Dash(Vector3 dir) 
     {
         isDashing = true;
 
@@ -106,7 +106,7 @@ public class Player_Move : MonoBehaviour
         isDashing = false;
     }
 
-    void LateUpdate()
+    void LateUpdate() // 이동 범위 제한
     {
         Vector3 pos = transform.position;
 

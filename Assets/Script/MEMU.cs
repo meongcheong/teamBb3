@@ -9,11 +9,11 @@ public class MEMU : MonoBehaviour
     public Slider masterVol, MusicVol, sfxVol;
     public AudioMixer mainAudioMixer;
 
-    public void ChangeGraphicsQuality()
+    public void ChangeGraphicsQuality() // 해상도
     {
         QualitySettings.SetQualityLevel(graphicsDropdown.value);
     }
-    public void ChangeMasterVolume()
+    public void ChangeMasterVolume() 
     {
         mainAudioMixer.SetFloat("MasterVol", masterVol.value);
     }

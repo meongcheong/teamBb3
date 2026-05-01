@@ -22,7 +22,7 @@ public class Player_Status : MonoBehaviour
         if (isInvincible) return;
 
         currentHP -= damage;
-        Debug.Log(" 피격! 현재 체력: " + currentHP);
+        Debug.Log(" 현재 체력: " + currentHP);
 
         StartCoroutine(Invincible());
     }

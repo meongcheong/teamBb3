@@ -1,21 +1,21 @@
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Quality : MonoBehaviour
 {
-    public Dropdown resolutionDropdown;
+    public TMP_Dropdown resolutionDropdown;
     public Toggle windowedToggle;
 
     List<Resolution> resolutions = new List<Resolution>();
 
     int selectedIndex;
-    bool selectedwindowed;
+    bool selectedWindowed;
 
     void Start()
     {
+        // 해상도 설정
         resolutions.Clear();
         resolutions.Add(new Resolution { width = 1920, height = 1080 });
         resolutions.Add(new Resolution { width = 1280, height = 720 });
@@ -35,17 +35,16 @@ public class Quality : MonoBehaviour
         int savedIndex = PlayerPrefs.GetInt("ResolutionIndex", 0);
         bool isWindowed = PlayerPrefs.GetInt("Windowed", 1) == 1;
 
-        //저장
         selectedIndex = savedIndex;
-        selectedwindowed = isWindowed;
+        selectedWindowed = isWindowed;
 
         // UI 반영
         resolutionDropdown.value = savedIndex;
         resolutionDropdown.RefreshShownValue();
         windowedToggle.isOn = isWindowed;
 
-        // 시작
-        ApplyResolution(savedIndex, isWindowed);
+        // 시작 시 적용
+        ApplyResolution(selectedIndex, selectedWindowed);
 
         // 이벤트 연결
         resolutionDropdown.onValueChanged.AddListener(OnResolutionChanged);
@@ -55,20 +54,17 @@ public class Quality : MonoBehaviour
     public void OnResolutionChanged(int index)
     {
         selectedIndex = index;
+
+        ApplyResolution(selectedIndex, selectedWindowed);
+        PlayerPrefs.SetInt("ResolutionIndex", selectedIndex);
     }
 
     public void OnToggleChanged(bool isWindowed)
     {
-        selectedwindowed = isWindowed;
-    }
+        selectedWindowed = isWindowed;
 
-    // Apply 버튼
-    public void OnApply()
-    {
-        ApplyResolution(selectedIndex, selectedwindowed);
-
-        PlayerPrefs.SetInt("ResolutionIndex", selectedIndex);
-        PlayerPrefs.SetInt("Windowed", selectedwindowed ? 1 : 0);
+        ApplyResolution(selectedIndex, selectedWindowed);
+        PlayerPrefs.SetInt("Windowed", selectedWindowed ? 1 : 0);
     }
 
     void ApplyResolution(int index, bool isWindowed)
@@ -82,9 +78,12 @@ public class Quality : MonoBehaviour
         Screen.SetResolution(res.width, res.height, mode);
     }
 
-    // Update is called once per frame
+    // 창모드 확인용 코드 확인후 지워야함!
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            Screen.SetResolution(800, 600, FullScreenMode.Windowed);
+        }
     }
 }

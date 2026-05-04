@@ -12,8 +12,8 @@ public class BossDwarf : MonoBehaviour
     public Transform player;
     public Player_Status status;
     public GameObject Square;
-    public GameObject Pickaxes;
     public PlayerInputCheck InputCheck;
+    public GameObject PickaxeAnimation;
     void Start()
     {
         
@@ -21,7 +21,7 @@ public class BossDwarf : MonoBehaviour
         UseFuntion.player = player;
         UseFuntion.status = status;
         UseFuntion.Square = Square;
-        UseFuntion.Pickaxes = Pickaxes;
+        UseFuntion.PickaxeAnimation = PickaxeAnimation;
         UseFuntion.InputCheck = InputCheck;
 
     }
@@ -73,7 +73,7 @@ public class UseFuntion
     public Player_Status status;
     public Transform player;
     public GameObject Square;
-    public GameObject Pickaxes;
+    public GameObject PickaxeAnimation;
 
     /*======낙석패턴===========================================================================================*/
     public bool FallingRocksTriger = false;
@@ -146,6 +146,7 @@ public class UseFuntion
     public float PickaxeDamagePower = 10;
     public float PickaxePatternDamageTimer;
     public bool PickaxeCreateTriger = false;
+    
     Vector2 PlayerPositionCheck;
 
 
@@ -157,10 +158,11 @@ public class UseFuntion
         if (PickaxeCreateTriger == true)
         {
                 
-                PickaxeObject = Object.Instantiate(Pickaxes);
+            
+            PickaxeObject = Object.Instantiate(PickaxeAnimation);
             PickaxePositionChecking();
             PickaxeObject.transform.position = PlayerPositionCheck;
-            Object.Destroy(PickaxeObject, 4f);
+            Object.Destroy(PickaxeObject, 0.7f);
         }
         PickaxeCreateTriger = false;
         if (PickaxePatternDamageTimer > 3)
@@ -168,6 +170,7 @@ public class UseFuntion
             if (InputCheck.InputCheck)
             {
                 status.TakeDamage(PickaxeDamagePower);
+                Debug.Log("적중");
             }
             PickaxePatternDamageTimer = 0;
             PositionCheckingTirger = false;
@@ -176,9 +179,11 @@ public class UseFuntion
     
     public Vector2 PickaxePositionChecking()
     {
-        PlayerPositionCheck = player.transform.position;
+        PlayerPositionCheck = player.position;
         return PlayerPositionCheck;
     }
+
+    
 
 }
 

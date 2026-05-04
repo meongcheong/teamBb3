@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &146204943347224664
+--- !u!1 &6359500295242016358
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,39 +8,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 150422058564719580}
-  - component: {fileID: 1042849616447680372}
-  - component: {fileID: 6873509377269614751}
-  - component: {fileID: 3591696335027843593}
-  m_Layer: 9
-  m_Name: BossDwarf
-  m_TagString: Boss
+  - component: {fileID: 4948594580112313424}
+  - component: {fileID: 1605806773824023353}
+  - component: {fileID: 1781679818710889745}
+  - component: {fileID: 4440411963062426610}
+  - component: {fileID: 4152382228134859276}
+  m_Layer: 0
+  m_Name: PickaxeAnimation
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &150422058564719580
+--- !u!4 &4948594580112313424
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146204943347224664}
+  m_GameObject: {fileID: 6359500295242016358}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0093, y: 2.32, z: 0}
-  m_LocalScale: {x: 0.95875746, y: 0.94028, z: 1.1}
+  m_LocalPosition: {x: 0, y: 0.07, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &1042849616447680372
+--- !u!212 &1605806773824023353
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146204943347224664}
+  m_GameObject: {fileID: 6359500295242016358}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -75,45 +76,62 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -333299131
-  m_SortingLayer: 1
-  m_SortingOrder: 1
-  m_Sprite: {fileID: 1102497156293373268, guid: 4db52bf0812bedf4bb3e84a27ab7273e, type: 3}
+  m_SortingLayerID: -1821846057
+  m_SortingLayer: 2
+  m_SortingOrder: 5
+  m_Sprite: {fileID: -5343243324766836372, guid: a445ad9e050479e46ad55a8a0773ff93, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 5.83, y: 5.97}
+  m_Size: {x: 23.603092, y: 16.4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6873509377269614751
+--- !u!95 &1781679818710889745
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6359500295242016358}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 809dafbd0f48df043b033eea01e7f8e0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4440411963062426610
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146204943347224664}
+  m_GameObject: {fileID: 6359500295242016358}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10e27637cbaa45b46b65a6bb82e3d43d, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b7d05fd133eb9e4ab7a2932d30106f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 20
-  player: {fileID: 2640342833459280128, guid: 98dec73d89352c442bdb38ecfa94b987, type: 3}
-  status: {fileID: 6930180031608738463, guid: 98dec73d89352c442bdb38ecfa94b987, type: 3}
-  Square: {fileID: 5979165727120289434, guid: 19b59aaa163ae6b458807fccab307803, type: 3}
-  InputCheck: {fileID: 4440411963062426610, guid: 3aed75c9e0450a8438b8edbbdae5acea, type: 3}
-  PickaxeAnimation: {fileID: 6359500295242016358, guid: 3aed75c9e0450a8438b8edbbdae5acea, type: 3}
---- !u!61 &3591696335027843593
+  InputCheck: 0
+--- !u!61 &4152382228134859276
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146204943347224664}
+  m_GameObject: {fileID: 6359500295242016358}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -141,15 +159,15 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.032973528, y: -2.7038727}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.83, y: 5.97}
-    newSize: {x: 5.83, y: 5.97}
+    oldSize: {x: 23.603092, y: 16.4}
+    newSize: {x: 23.603092, y: 16.4}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 3, y: 5.17}
+  m_Size: {x: 12.391922, y: 5.5845156}
   m_EdgeRadius: 0

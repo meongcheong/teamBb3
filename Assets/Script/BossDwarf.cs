@@ -2,8 +2,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
-using static UnityEngine.Rendering.ReloadAttribute;
+
 
 public class BossDwarf : MonoBehaviour
 {
@@ -12,11 +11,10 @@ public class BossDwarf : MonoBehaviour
     public Transform player;
     public Player_Status status;
     public GameObject Square;
-<<<<<<< Updated upstream
-=======
+
     public GameObject Pickaxes;
     public AnimationClip PickaxesEffects;
->>>>>>> Stashed changes
+
     public PlayerInputCheck InputCheck;
     public GameObject PickaxeAnimation;
     void Start()
@@ -78,12 +76,12 @@ public class UseFuntion
     public Player_Status status;
     public Transform player;
     public GameObject Square;
-<<<<<<< Updated upstream
+
     public GameObject PickaxeAnimation;
-=======
-    public GameObject Pickaxes;
+
+    
     public AnimationClip PickaxesEffects;
->>>>>>> Stashed changes
+
 
     /*======³«¼®ÆÐÅÏ===========================================================================================*/
     public bool FallingRocksTriger = false;
@@ -168,12 +166,12 @@ public class UseFuntion
         if (PickaxeCreateTriger == true)
         {
                 
-<<<<<<< Updated upstream
+
             
             PickaxeObject = Object.Instantiate(PickaxeAnimation);
-=======
-            PickaxeObject = Object.Instantiate(Pickaxes);
->>>>>>> Stashed changes
+
+            
+
             PickaxePositionChecking();
             PickaxeObject.transform.position = PlayerPositionCheck;
             Object.Destroy(PickaxeObject, 0.7f);

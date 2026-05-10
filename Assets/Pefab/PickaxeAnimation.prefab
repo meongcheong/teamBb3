@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4948594580112313424}
   - component: {fileID: 1605806773824023353}
   - component: {fileID: 1781679818710889745}
-  - component: {fileID: 4440411963062426610}
   - component: {fileID: 4152382228134859276}
+  - component: {fileID: -3998214179811473432}
   m_Layer: 0
   m_Name: PickaxeAnimation
   m_TagString: Untagged
@@ -29,9 +29,9 @@ Transform:
   m_GameObject: {fileID: 6359500295242016358}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.07, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -76,9 +76,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1821846057
-  m_SortingLayer: 2
-  m_SortingOrder: 5
+  m_SortingLayerID: -333299131
+  m_SortingLayer: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: -5343243324766836372, guid: a445ad9e050479e46ad55a8a0773ff93, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -102,7 +102,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 809dafbd0f48df043b033eea01e7f8e0, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 1
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -112,19 +112,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &4440411963062426610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6359500295242016358}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b7d05fd133eb9e4ab7a2932d30106f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InputCheck: 0
 --- !u!61 &4152382228134859276
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -155,11 +142,11 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.032973528, y: -2.7038727}
+  m_Offset: {x: 0.043117523, y: -2.6125722}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -169,5 +156,18 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 12.391922, y: 5.5845156}
+  m_Size: {x: 10.99198, y: 4.6715107}
   m_EdgeRadius: 0
+--- !u!114 &-3998214179811473432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6359500295242016358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e6579ee8d570f048948fe32564990fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PickaxeInput: 0

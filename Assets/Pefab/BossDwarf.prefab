@@ -104,7 +104,7 @@ MonoBehaviour:
   hp: 20
   player: {fileID: 2640342833459280128, guid: 98dec73d89352c442bdb38ecfa94b987, type: 3}
   status: {fileID: 6930180031608738463, guid: 98dec73d89352c442bdb38ecfa94b987, type: 3}
-  Square: {fileID: 5979165727120289434, guid: 19b59aaa163ae6b458807fccab307803, type: 3}
+  FallingRock: {fileID: 5979165727120289434, guid: 19b59aaa163ae6b458807fccab307803, type: 3}
   InputCheck: {fileID: 4440411963062426610, guid: 3aed75c9e0450a8438b8edbbdae5acea, type: 3}
   PickaxeAnimation: {fileID: 6359500295242016358, guid: 3aed75c9e0450a8438b8edbbdae5acea, type: 3}
 --- !u!61 &3591696335027843593

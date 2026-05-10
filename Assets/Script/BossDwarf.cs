@@ -10,53 +10,43 @@ public class BossDwarf : MonoBehaviour
     public float hp = 30f;
     public Transform player;
     public Player_Status status;
-    public GameObject Square;
-
-    public GameObject Pickaxes;
-    public AnimationClip PickaxesEffects;
-
-    public PlayerInputCheck InputCheck;
     public GameObject PickaxeAnimation;
+    public GameObject FallingRock;
+    
     void Start()
     {
-        
-
         UseFuntion.player = player;
         UseFuntion.status = status;
-        UseFuntion.Square = Square;
+        UseFuntion.FallingRock = FallingRock;
         UseFuntion.PickaxeAnimation = PickaxeAnimation;
-        UseFuntion.InputCheck = InputCheck;
-
     }
     
     void Update()
     {
-        
+
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            UseFuntion.FallingRocksTriger = true;     //낙석패턴 트리거
+            UseFuntion.FallingRocksPatternTrigger = true;
         }
+        if (UseFuntion.FallingRocksPatternTrigger)// => 실행
+        {
+            UseFuntion.FallingRocksPattern();
+        }
+
+
+
         /*곡괭이 패턴*/
-        if (Input.GetKeyDown(KeyCode.V))
+        if (Input.GetKeyDown(KeyCode.K))
         {
             UseFuntion.Pickaxe = true;     //곡괭이 패턴 트리거
             UseFuntion.PickaxeCreateTriger = true;
         }
-        bool PickaxePatternTriger = UseFuntion.Pickaxe;
-
-        if (PickaxePatternTriger == true)
+        if (UseFuntion.Pickaxe == true)
         {
             UseFuntion.PickaxePattern();
         }
-        /*낙석 패턴*/
-        {
-            Vector2 PlayerPosition = player.position;
-
-            if (UseFuntion.FallingRocksTriger == true)
-            {
-                UseFuntion.FallingRocksPattern();
-            }
-        }
+       
     }
     public void TakeDamage(float damage)
     {
@@ -72,33 +62,26 @@ public class BossDwarf : MonoBehaviour
 }
 public class UseFuntion
 {
-    public PlayerInputCheck InputCheck;
+
     public Player_Status status;
     public Transform player;
-    public GameObject Square;
-
+    public GameObject FallingRock;
     public GameObject PickaxeAnimation;
-
-    
-    public AnimationClip PickaxesEffects;
-
-
     /*======낙석패턴===========================================================================================*/
-    public bool FallingRocksTriger = false;
+    RockInputCheck FallingRockInputCheck = new RockInputCheck();
     public float FallingRocksPatternDamageTimer = 0;
     public float FallingRocksPatternBoundary = 3.0f;
-    bool PositionCheckingTirger = true;
     List<GameObject> RockObject;
     public float FallingRocksDamagePower = 10;
+    public bool FallingRocksPatternTrigger = false;
     float MaxY = -1.0f;
     float MinY = -5.0f;
-    float MinDis = 1.0f;
     public List<GameObject> FallingRockPositionChecking()
     {
         List<GameObject> Squares = new List<GameObject>();
         for (int i = 0; i < 4; i++)
         {
-            GameObject SquareSpot = Object.Instantiate(Square);
+            GameObject SquareSpot = Object.Instantiate(FallingRock);
             Vector2 Spot; //<-- 오브젝트들의 위치 좌표가 존재함
             if (i == 0)
             {
@@ -118,23 +101,19 @@ public class UseFuntion
     
     public void FallingRocksPattern()
     {
-
-
-        if (PositionCheckingTirger == true)
+        if (RockObject == null)
         {
             RockObject = FallingRockPositionChecking();
         }
-        PositionCheckingTirger = false;
-
-        FallingRocksPatternDamageTimer = FallingRocksPatternDamageTimer + Time.deltaTime;
+            FallingRocksPatternDamageTimer = FallingRocksPatternDamageTimer + Time.deltaTime;
         if (FallingRocksPatternDamageTimer >= 3)
         {
-            if (InputCheck.InputCheck)
+            if (FallingRockInputCheck.FallingRockInputCheck)
             {
                 status.TakeDamage(FallingRocksDamagePower);
                 Debug.Log("적중");
             }
-            FallingRocksPatternDamageTimer = 0f;
+
             if (RockObject != null)
             {
                 foreach (GameObject Obj in RockObject)
@@ -142,50 +121,44 @@ public class UseFuntion
                     Object.Destroy(Obj);
                 }
             }
-            FallingRocksTriger = false;
-            PositionCheckingTirger = true;
+            RockObject = null;
+            FallingRocksPatternTrigger = false;
+            FallingRocksPatternDamageTimer = 0f;
         }
+        
+
     }
 
     /*=====곡괭이 패턴===================================================================================================*/
-    GameObject PickaxeObject;
+    PickaxeInputCheck PickaxeInput = new PickaxeInputCheck();
     
+    GameObject PickaxeObject;
     public bool Pickaxe = false;
     public float PickaxeDamagePower = 10;
     public float PickaxePatternDamageTimer;
     public bool PickaxeCreateTriger = false;
-    
     Vector2 PlayerPositionCheck;
-
-
     public void PickaxePattern()
     {
-
 
         PickaxePatternDamageTimer += Time.deltaTime;
         if (PickaxeCreateTriger == true)
         {
-                
-
-            
             PickaxeObject = Object.Instantiate(PickaxeAnimation);
-
-            
-
             PickaxePositionChecking();
             PickaxeObject.transform.position = PlayerPositionCheck;
             Object.Destroy(PickaxeObject, 0.7f);
         }
         PickaxeCreateTriger = false;
-        if (PickaxePatternDamageTimer > 3)
+        if (PickaxePatternDamageTimer > 0.7f)
         {
-            if (InputCheck.InputCheck)
+            if (PickaxeInput.PickaxeInput)
             {
                 status.TakeDamage(PickaxeDamagePower);
                 Debug.Log("적중");
             }
             PickaxePatternDamageTimer = 0;
-            PositionCheckingTirger = false;
+            Pickaxe = false;
         }
     }
     
@@ -195,7 +168,7 @@ public class UseFuntion
         return PlayerPositionCheck;
     }
 
-    
+
 
 }
 

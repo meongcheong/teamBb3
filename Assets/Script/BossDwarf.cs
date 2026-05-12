@@ -12,13 +12,18 @@ public class BossDwarf : MonoBehaviour
     public Player_Status status;
     public GameObject PickaxeAnimation;
     public GameObject FallingRock;
-    
+    public GameObject BoomAnimation;
+
+    public GameObject BoomPatternWarning;
+
     void Start()
     {
         UseFuntion.player = player;
         UseFuntion.status = status;
         UseFuntion.FallingRock = FallingRock;
         UseFuntion.PickaxeAnimation = PickaxeAnimation;
+        UseFuntion.BoomAnimation = BoomAnimation;
+        UseFuntion.BoomPatternWarning = BoomPatternWarning;
     }
     
     void Update()
@@ -46,7 +51,15 @@ public class BossDwarf : MonoBehaviour
         {
             UseFuntion.PickaxePattern();
         }
-       
+
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            UseFuntion.BoomPatternTrigger = true;
+        }
+        if (UseFuntion.BoomPatternTrigger)// => 실행
+        {
+            UseFuntion.BoomPattern();
+        }
     }
     public void TakeDamage(float damage)
     {
@@ -71,7 +84,7 @@ public class UseFuntion
     /*======낙석패턴===========================================================================================*/
     RockInputCheck FallingRockInputCheck = new RockInputCheck();
     public float FallingRocksPatternDamageTimer = 0;
-    public float FallingRocksPatternBoundary = 3.0f;
+    public float FallingRocksPatternBoundary = 10.0f;
     List<GameObject> RockObject;
     public float FallingRocksDamagePower = 10;
     public bool FallingRocksPatternTrigger = false;
@@ -169,65 +182,82 @@ public class UseFuntion
         return PlayerPositionCheck;
     }
     /*=====폭발 패턴===================================================================================================*/
-    
+    List<GameObject> BoomAnimations = new List<GameObject>();
     BoomInputCheck BoomInput = new BoomInputCheck();
     public float BoomPatternDamageTimer = 0;
-    public float BoomPatternBoundary = 3.0f;
-    List<GameObject> BoomObject;
+    public float BoomPatternWarningTimer = 3;
+    public float BoomPatternBoundary = 10.0f;
+    List<Vector2> Boom_Object;
+    GameObject BoomObject;
     public float BoomDamagePower = 10;
     public bool BoomPatternTrigger = false;
+    public GameObject BoomPatternWarning;
     float BoomMaxY = -1.0f;
     float BoomMinY = -5.0f;
-    public List<GameObject> BoomPositionChecking()
+    public List<Vector2> BoomPositionChecking()
     {
-        List<GameObject> Squares = new List<GameObject>();
-        for (int i = 0; i < 4; i++)
+        List<Vector2> Squares = new List<Vector2>();
+        
+        for (int i = 0; i < 2; i++)
         {
-            GameObject SquareSpot = Object.Instantiate(FallingRock);
+
+            GameObject SquareSpot = Object.Instantiate(BoomPatternWarning);
+            Vector2 WarningPos = SquareSpot.transform.position;
             Vector2 Spot; //<-- 오브젝트들의 위치 좌표가 존재함
-            if (i == 0)
-            {
-                Spot = player.position;
-            }
-            else
-            {
-                Spot = (Vector2)player.position + Random.insideUnitCircle * FallingRocksPatternBoundary;
-                Spot.y = Mathf.Clamp(Spot.y, BoomMinY, BoomMaxY);
-            }
+            Spot = (Vector2)player.position + Random.insideUnitCircle * BoomPatternBoundary;
+            Spot.y = Mathf.Clamp(Spot.y, BoomMinY, BoomMaxY);
             SquareSpot.transform.position = Spot;
-            Squares.Add(SquareSpot);
+            Squares.Add(WarningPos);
+            
 
         }
-            return Squares;
-        }
+        return Squares;
+    }
     
     public void BoomPattern()
     {
-        if (RockObject == null)
+        BoomPatternDamageTimer += Time.deltaTime;
+        BoomPatternWarningTimer -= Time.deltaTime;
+        if (BoomAnimations == null)
         {
-            RockObject = FallingRockPositionChecking();
+            
+            Boom_Object = BoomPositionChecking();
+            if (BoomPatternWarningTimer <= 0)
+            {
+                
+                foreach (Vector2 Pos in Boom_Object)
+                {
+                    Debug.Log("나에요");
+                    GameObject BoomObject = Object.Instantiate(BoomAnimation);
+                    BoomObject.transform.position = Pos;
+                    BoomAnimations.Add(BoomObject);
+
+                }
+            }
+           
+
         }
-            BoomDamageTimer = BoomPatternDamageTimer + Time.deltaTime;
-        if (BoomPatternDamageTimer >= 3)
+        if (BoomPatternDamageTimer <= 1)
         {
-            if (BoomInputCheck.BoomInput)
+            if (BoomInput.BoomInput)
             {
                 status.TakeDamage(BoomDamagePower);
                 Debug.Log("적중");
             }
-
-            if (RockObject != null)
+        }
+            if (BoomAnimations != null)
             {
-                foreach (GameObject Obj in RockObject)
+                foreach (GameObject Obj in BoomAnimations)
                 {
-                    Object.Destroy(Obj);
+                    Object.Destroy(Obj,1.2f);
                 }
             }
-            RockObject = null;
+            BoomObject = null;
             BoomPatternTrigger = false;
             BoomPatternDamageTimer = 0f;
-        }
-        
+        BoomPatternWarningTimer = 3f;
+
+
 
     }
 

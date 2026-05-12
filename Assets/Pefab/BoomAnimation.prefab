@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3263004268191676602}
   - component: {fileID: 4535812204847523631}
   - component: {fileID: 5537253568288229313}
+  - component: {fileID: -6520091372330050083}
   m_Layer: 0
   m_Name: BoomAnimation
   m_TagString: Untagged
@@ -110,3 +111,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-6520091372330050083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7978788882222391651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819b342b7ca261e42ac6d0f5f6f8a988, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

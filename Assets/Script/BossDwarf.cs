@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 
 public class BossDwarf : MonoBehaviour
@@ -14,7 +15,11 @@ public class BossDwarf : MonoBehaviour
     public GameObject FallingRock;
     public GameObject BoomAnimation;
 
-    public GameObject BoomPatternWarning;
+    public GameObject FallingRockWarning;
+    public GameObject PickaxeWarning;
+    public GameObject BoomWarning;
+
+
 
     void Start()
     {
@@ -23,7 +28,11 @@ public class BossDwarf : MonoBehaviour
         UseFuntion.FallingRock = FallingRock;
         UseFuntion.PickaxeAnimation = PickaxeAnimation;
         UseFuntion.BoomAnimation = BoomAnimation;
-        UseFuntion.BoomPatternWarning = BoomPatternWarning;
+
+        UseFuntion.FallingRockWarning = FallingRockWarning;
+        UseFuntion.PickaxeWarning = PickaxeWarning;
+        UseFuntion.BoomWarning = BoomWarning;
+
     }
     
     void Update()
@@ -81,22 +90,26 @@ public class UseFuntion
     public GameObject PickaxeAnimation;
     public GameObject BoomAnimation;
 
+    public GameObject FallingRockWarning;
+    public GameObject PickaxeWarning;
+    public GameObject BoomWarning;
+
     /*======낙석패턴===========================================================================================*/
     RockInputCheck FallingRockInputCheck = new RockInputCheck();
-    public float FallingRocksPatternDamageTimer = 0;
+    
+    public float FallingRocksPatternTimer = 3;
     public float FallingRocksPatternBoundary = 10.0f;
-    List<GameObject> RockObject;
+    List<GameObject> WarningMark;
     public float FallingRocksDamagePower = 10;
     public bool FallingRocksPatternTrigger = false;
     float MaxY = -1.0f;
     float MinY = -5.0f;
-    public List<GameObject> FallingRockPositionChecking()
+    public List<Vector2> FallingRockPositionChecking()
     {
-        List<GameObject> Squares = new List<GameObject>();
+        List<Vector2> Squares = new List<Vector2>();
         for (int i = 0; i < 4; i++)
-        {
-            GameObject SquareSpot = Object.Instantiate(FallingRock);
-            Vector2 Spot; //<-- 오브젝트들의 위치 좌표가 존재함
+        {            
+            Vector2 Spot; 
             if (i == 0)
             {
                 Spot = player.position;
@@ -105,23 +118,40 @@ public class UseFuntion
             {
                 Spot = (Vector2)player.position + Random.insideUnitCircle * FallingRocksPatternBoundary;
                 Spot.y = Mathf.Clamp(Spot.y, MinY, MaxY);
-            }
-            SquareSpot.transform.position = Spot;
-            Squares.Add(SquareSpot);
+            }            
+            Squares.Add(Spot);
 
         }
             return Squares;
         }
-    
+
+    List<Vector2> SavedSpots;
+
     public void FallingRocksPattern()
     {
-        if (RockObject == null)
+        SavedSpots = FallingRockPositionChecking();
+        FallingRocksPatternTimer -= Time.deltaTime;
+        if (WarningMark == null)
         {
-            RockObject = FallingRockPositionChecking();
+            WarningMark = FallingRocksPatternWarningMark(SavedSpots);
         }
-            FallingRocksPatternDamageTimer = FallingRocksPatternDamageTimer + Time.deltaTime;
-        if (FallingRocksPatternDamageTimer >= 3)
+        if (FallingRocksPatternTimer < 0)
         {
+            foreach (GameObject Obj in WarningMark)
+            {
+                Object.Destroy(Obj);
+            } 
+            List<GameObject> RockObject = new List<GameObject>();
+           
+
+            for (int i = 0; i < 4; i++)
+            {
+                GameObject Rock = Object.Instantiate(FallingRock);
+                Rock.transform.position = SavedSpots[i];
+                RockObject.Add(Rock);
+            }
+
+
             if (FallingRockInputCheck.FallingRockInputCheck)
             {
                 status.TakeDamage(FallingRocksDamagePower);
@@ -137,7 +167,8 @@ public class UseFuntion
             }
             RockObject = null;
             FallingRocksPatternTrigger = false;
-            FallingRocksPatternDamageTimer = 0f;
+            FallingRocksPatternTimer = 2;
+            WarningMark = null;
         }
         
 
@@ -182,86 +213,94 @@ public class UseFuntion
         return PlayerPositionCheck;
     }
     /*=====폭발 패턴===================================================================================================*/
-    List<GameObject> BoomAnimations = new List<GameObject>();
-    BoomInputCheck BoomInput = new BoomInputCheck();
-    public float BoomPatternDamageTimer = 0;
-    public float BoomPatternWarningTimer = 3;
+
+    BoomInputCheck BoomInputCheck = new BoomInputCheck();
+    public float BoomPatternDamageTimer = 2;
     public float BoomPatternBoundary = 10.0f;
-    List<Vector2> Boom_Object;
-    GameObject BoomObject;
+    List<GameObject> BoomObject;
     public float BoomDamagePower = 10;
     public bool BoomPatternTrigger = false;
-    public GameObject BoomPatternWarning;
     float BoomMaxY = -1.0f;
     float BoomMinY = -5.0f;
-    public List<Vector2> BoomPositionChecking()
+    public List<GameObject> BoomPositionChecking()
     {
-        List<Vector2> Squares = new List<Vector2>();
-        
+        List<GameObject> Squares = new List<GameObject>();
         for (int i = 0; i < 2; i++)
         {
-
-            GameObject SquareSpot = Object.Instantiate(BoomPatternWarning);
-            Vector2 WarningPos = SquareSpot.transform.position;
-            Vector2 Spot; //<-- 오브젝트들의 위치 좌표가 존재함
-            Spot = (Vector2)player.position + Random.insideUnitCircle * BoomPatternBoundary;
+            GameObject SquareSpot = Object.Instantiate(BoomAnimation);
+            Vector2 Spot;
+            Spot = (Vector2)player.position + Random.insideUnitCircle * FallingRocksPatternBoundary;
             Spot.y = Mathf.Clamp(Spot.y, BoomMinY, BoomMaxY);
             SquareSpot.transform.position = Spot;
-            Squares.Add(WarningPos);
-            
+            Squares.Add(SquareSpot);
 
         }
         return Squares;
     }
-    
+
     public void BoomPattern()
     {
-        BoomPatternDamageTimer += Time.deltaTime;
-        BoomPatternWarningTimer -= Time.deltaTime;
-        if (BoomAnimations == null)
+        if (BoomObject == null)
         {
-            
-            Boom_Object = BoomPositionChecking();
-            if (BoomPatternWarningTimer <= 0)
-            {
-                
-                foreach (Vector2 Pos in Boom_Object)
-                {
-                    Debug.Log("나에요");
-                    GameObject BoomObject = Object.Instantiate(BoomAnimation);
-                    BoomObject.transform.position = Pos;
-                    BoomAnimations.Add(BoomObject);
-
-                }
-            }
-           
-
+            BoomObject = BoomPositionChecking();
         }
-        if (BoomPatternDamageTimer <= 1)
+        BoomPatternDamageTimer -= Time.deltaTime;
+        if (BoomPatternDamageTimer <= 0 )
         {
-            if (BoomInput.BoomInput)
+            if (BoomInputCheck.BoomInput)
             {
-                status.TakeDamage(BoomDamagePower);
+                status.TakeDamage(FallingRocksDamagePower);
                 Debug.Log("적중");
             }
-        }
-            if (BoomAnimations != null)
+
+            if (BoomObject != null)
             {
-                foreach (GameObject Obj in BoomAnimations)
+                foreach (GameObject Obj in BoomObject)
                 {
-                    Object.Destroy(Obj,1.2f);
+                    Object.Destroy(Obj,0.8f);
                 }
             }
             BoomObject = null;
             BoomPatternTrigger = false;
             BoomPatternDamageTimer = 0f;
-        BoomPatternWarningTimer = 3f;
-
+        }
 
 
     }
 
+
+
+    
+    List<GameObject> WarningB;
+    GameObject WarningP;
+
+
+    public void BoomPatternWarningMark()
+    {
+
+    }
+
+    public List<GameObject> FallingRocksPatternWarningMark(List<Vector2> SavedSpots)
+    {
+        List<GameObject> WarningF = new List<GameObject>();
+        for (int i = 0; i < 4; i++)
+        {
+            GameObject Warning = Object.Instantiate(FallingRockWarning);
+            List<Vector2> Pos = SavedSpots;
+            Warning.transform.position = Pos[i];
+            WarningF.Add(Warning);
+        }
+        return WarningF;
+    }
+
+    public void PickaxePatternWarningMark()
+    {
+
+    }
+
+
 }
+
 
 
 

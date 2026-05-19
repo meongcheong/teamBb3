@@ -11,8 +11,8 @@ public class Player_Attack : MonoBehaviour
     public float skillCooldown = 15f;
     float skillTimer = 0f;
 
-    // [추가] 평타 연속 공격을 막기 위한 쿨타임 (0.4초)
-    public float attackCooldown = 0.4f;
+    // 평타 연속 공격을 막기 위한 쿨타임 (0.8초)
+    public float attackCooldown = 0.8f;
     float attackTimer = 0f;
 
     // 59x56 크기의 충돌 상자를 담을 변수
@@ -32,7 +32,7 @@ public class Player_Attack : MonoBehaviour
         if (skillTimer > 0)
             skillTimer -= Time.deltaTime;
 
-        // [추가] 평타 쿨타임 계산
+        // 평타 쿨타임 계산
         if (attackTimer > 0)
             attackTimer -= Time.deltaTime;
     }

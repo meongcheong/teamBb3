@@ -11,24 +11,54 @@ public class Player_Attack : MonoBehaviour
     public float skillCooldown = 15f;
     float skillTimer = 0f;
 
+    // [추가] 평타 연속 공격을 막기 위한 쿨타임 (0.4초)
+    public float attackCooldown = 0.4f;
+    float attackTimer = 0f;
+
+    // 59x56 크기의 충돌 상자를 담을 변수
+    public GameObject attackArea;
+
     void Start()
     {
         status = GetComponent<Player_Status>();
         move = GetComponent<Player_Move>();
+
+        if (attackArea != null) attackArea.SetActive(false);
     }
 
     void Update()
     {
+        // 독사과 쿨타임 계산
         if (skillTimer > 0)
             skillTimer -= Time.deltaTime;
 
+        // [추가] 평타 쿨타임 계산
+        if (attackTimer > 0)
+            attackTimer -= Time.deltaTime;
     }
 
     // 평타
     public void Attack()
     {
+        // 평타 쿨타임 중이면 공격 불가!
+        if (attackTimer > 0) return;
+
         float damage = GetAttackPower();
-        Debug.Log("평타 공격 / 데미지: " + damage);
+        
+
+        if (attackArea != null)
+        {
+            attackArea.SetActive(true);
+            Invoke("DisableAttackArea", 0.7f);
+        }
+
+        // 공격했으니 평타 타이머 작동
+        attackTimer = attackCooldown;
+    }
+
+    void DisableAttackArea()
+    {
+        if (attackArea != null) attackArea.SetActive(false);
     }
 
     // 독사과
@@ -46,11 +76,11 @@ public class Player_Attack : MonoBehaviour
 
         skillTimer = skillCooldown;
         Debug.Log("독사과 사용!");
-
     }
 
-    float GetAttackPower()
+    public float GetAttackPower()
     {
-        return status.attackPower * (status.currentHP / status.maxHP);
+        if (status == null) return 0f;
+        return status.attackPower;
     }
 }

@@ -106,7 +106,7 @@ public class UseFuntion
     public GameObject FallingRock;
     public GameObject PickaxeAnimation;
     public GameObject BoomAnimation;
-
+    bool HitCheck = false;
     public GameObject FallingRockWarning;
     public GameObject PickaxeWarning;
     public GameObject BoomWarning;
@@ -114,7 +114,8 @@ public class UseFuntion
     /*======낙석패턴===========================================================================================*/
     RockInputCheck FallingRockInputCheck = new RockInputCheck();
 
-    public float FallingRocksPatternTimer = 3;
+    public float FallingRocksPatternTimer = 2;
+    public float FallingRocksDamageTimer = 2;
     public float FallingRocksPatternBoundary = 10.0f;
     List<GameObject> WarningMark;
     public float FallingRocksDamagePower = 10;
@@ -146,12 +147,17 @@ public class UseFuntion
 
     public void FallingRocksPattern()
     {
-        SavedSpots = FallingRockPositionChecking();
+        if (SavedSpots == null)
+        {
+            SavedSpots = FallingRockPositionChecking();
+        }
         FallingRocksPatternTimer -= Time.deltaTime;
         if (WarningMark == null)
         {
+            
             WarningMark = FallingRocksPatternWarningMark(SavedSpots);
         }
+        
         if (FallingRocksPatternTimer < 0)
         {
             foreach (GameObject Obj in WarningMark)
@@ -162,28 +168,37 @@ public class UseFuntion
 
             for (int i = 0; i < 4; i++)
             {
-                GameObject Rock = Object.Instantiate(FallingRock);
+                GameObject Rock = Object.Instantiate(FallingRock);       
                 Rock.transform.position = SavedSpots[i];
                 RockObject.Add(Rock);
             }
-
-            if (FallingRockInputCheck.FallingRockInputCheck)
+            FallingRocksDamageTimer -= Time.deltaTime;
+            HitCheck = true;
+            if (HitCheck)
             {
-                status.TakeDamage(FallingRocksDamagePower);
-                Debug.Log("적중");
-            }
-
-            if (RockObject != null)
-            {
-                foreach (GameObject Obj in RockObject)
+                if (FallingRockInputCheck.FallingRockInputCheck)
                 {
-                    Object.Destroy(Obj);
+                    status.TakeDamage(FallingRocksDamagePower);
+                    Debug.Log("적중");
                 }
             }
+            if (RockObject != null)
+            {
+
+                foreach (GameObject Obj in RockObject)
+                {
+                    Object.Destroy(Obj,1.2f);
+                }
+
+            }
+
             RockObject = null;
             FallingRocksPatternTrigger = false;
             FallingRocksPatternTimer = 2;
+            FallingRocksDamageTimer = 2;
             WarningMark = null;
+            SavedSpots = null;
+            HitCheck = false;
         }
     }
 
@@ -290,8 +305,8 @@ public class UseFuntion
         for (int i = 0; i < 4; i++)
         {
             GameObject Warning = Object.Instantiate(FallingRockWarning);
-            List<Vector2> Pos = SavedSpots;
-            Warning.transform.position = Pos[i];
+            
+            Warning.transform.position = SavedSpots[i];
             WarningF.Add(Warning);
         }
         return WarningF;

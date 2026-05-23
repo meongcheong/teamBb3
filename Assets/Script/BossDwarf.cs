@@ -115,9 +115,9 @@ public class UseFuntion
     RockInputCheck FallingRockInputCheck = new RockInputCheck();
 
     public float FallingRocksPatternTimer = 2;
-    public float FallingRocksDamageTimer = 2;
+    
     public float FallingRocksPatternBoundary = 10.0f;
-    List<GameObject> WarningMark;
+    List<GameObject> WarningMarkF;
     public float FallingRocksDamagePower = 10;
     public bool FallingRocksPatternTrigger = false;
     float MaxY = -1.0f;
@@ -143,24 +143,24 @@ public class UseFuntion
         return Squares;
     }
 
-    List<Vector2> SavedSpots;
+    List<Vector2> SavedSpotsF;
 
     public void FallingRocksPattern()
     {
-        if (SavedSpots == null)
+        if (SavedSpotsF == null)
         {
-            SavedSpots = FallingRockPositionChecking();
+            SavedSpotsF = FallingRockPositionChecking();
         }
         FallingRocksPatternTimer -= Time.deltaTime;
-        if (WarningMark == null)
+        if (WarningMarkF == null)
         {
-            
-            WarningMark = FallingRocksPatternWarningMark(SavedSpots);
+
+            WarningMarkF = FallingRocksPatternWarningMark(SavedSpotsF);
         }
         
         if (FallingRocksPatternTimer < 0)
         {
-            foreach (GameObject Obj in WarningMark)
+            foreach (GameObject Obj in WarningMarkF)
             {
                 Object.Destroy(Obj);
             }
@@ -169,10 +169,10 @@ public class UseFuntion
             for (int i = 0; i < 4; i++)
             {
                 GameObject Rock = Object.Instantiate(FallingRock);       
-                Rock.transform.position = SavedSpots[i];
+                Rock.transform.position = SavedSpotsF[i];
                 RockObject.Add(Rock);
             }
-            FallingRocksDamageTimer -= Time.deltaTime;
+            
             HitCheck = true;
             if (HitCheck)
             {
@@ -195,9 +195,9 @@ public class UseFuntion
             RockObject = null;
             FallingRocksPatternTrigger = false;
             FallingRocksPatternTimer = 2;
-            FallingRocksDamageTimer = 2;
-            WarningMark = null;
-            SavedSpots = null;
+            
+            WarningMarkF = null;
+            SavedSpotsF = null;
             HitCheck = false;
         }
     }
@@ -243,42 +243,67 @@ public class UseFuntion
 
     /*=====폭발 패턴===================================================================================================*/
     BoomInputCheck BoomInputCheck = new BoomInputCheck();
-    public float BoomPatternDamageTimer = 2;
+    public float BoomPatternTimer = 2;
     public float BoomPatternBoundary = 10.0f;
     List<GameObject> BoomObject;
     public float BoomDamagePower = 10;
     public bool BoomPatternTrigger = false;
+    List<GameObject> WarningMarkB;
     float BoomMaxY = -1.0f;
     float BoomMinY = -5.0f;
 
-    public List<GameObject> BoomPositionChecking()
+    public List<Vector2> BoomPositionChecking()
     {
-        List<GameObject> Squares = new List<GameObject>();
+        List<Vector2> Squares = new List<Vector2>();
         for (int i = 0; i < 2; i++)
         {
-            GameObject SquareSpot = Object.Instantiate(BoomAnimation);
+            
             Vector2 Spot;
             Spot = (Vector2)player.position + Random.insideUnitCircle * FallingRocksPatternBoundary;
             Spot.y = Mathf.Clamp(Spot.y, BoomMinY, BoomMaxY);
-            SquareSpot.transform.position = Spot;
-            Squares.Add(SquareSpot);
+            Squares.Add(Spot);
         }
         return Squares;
     }
 
+    List<Vector2> SavedSpotsB;
     public void BoomPattern()
     {
-        if (BoomObject == null)
+        
+        if (SavedSpotsB == null)
         {
-            BoomObject = BoomPositionChecking();
+            SavedSpotsB = BoomPositionChecking();
         }
-        BoomPatternDamageTimer -= Time.deltaTime;
-        if (BoomPatternDamageTimer <= 0)
+        BoomPatternTimer -= Time.deltaTime;
+        if (WarningMarkB == null)
         {
-            if (BoomInputCheck.BoomInput)
+
+            WarningMarkB = BoomPatternWarningMark(SavedSpotsB);
+        }
+        
+        if (BoomPatternTimer < 0)
+        {
+            foreach (GameObject Obj in WarningMarkB)
             {
-                status.TakeDamage(FallingRocksDamagePower);
-                Debug.Log("적중");
+                Object.Destroy(Obj);
+            }
+            List<GameObject> BoomObject = new List<GameObject>();
+
+            for (int i = 0; i < 2; i++)
+            {
+                GameObject Boom = Object.Instantiate(BoomAnimation);
+                Boom.transform.position = SavedSpotsB[i];
+                BoomObject.Add(Boom);
+            }
+
+            HitCheck = true;
+            if (HitCheck)
+            {
+                if (BoomInputCheck.BoomInput)
+                {
+                    status.TakeDamage(BoomDamagePower);
+                    Debug.Log("적중");
+                }
             }
 
             if (BoomObject != null)
@@ -290,27 +315,43 @@ public class UseFuntion
             }
             BoomObject = null;
             BoomPatternTrigger = false;
-            BoomPatternDamageTimer = 0f;
+            BoomPatternTimer = 2f;
+            WarningMarkB = null;
+            SavedSpotsB = null;
+            HitCheck = false;
         }
     }
 
-    List<GameObject> WarningB;
     GameObject WarningP;
 
-    public void BoomPatternWarningMark() { }
+    public List<GameObject> BoomPatternWarningMark(List<Vector2> SavedSpotsB) 
+    {
+        List<GameObject> WarningB = new List<GameObject>();
+        for (int i = 0; i < 2; i++)
+        {
+            GameObject Warning = Object.Instantiate(BoomWarning);
 
-    public List<GameObject> FallingRocksPatternWarningMark(List<Vector2> SavedSpots)
+            Warning.transform.position = SavedSpotsB[i];
+            WarningB.Add(Warning);
+        }
+        return WarningB;
+    }
+
+    public List<GameObject> FallingRocksPatternWarningMark(List<Vector2> SavedSpotsF)
     {
         List<GameObject> WarningF = new List<GameObject>();
         for (int i = 0; i < 4; i++)
         {
             GameObject Warning = Object.Instantiate(FallingRockWarning);
             
-            Warning.transform.position = SavedSpots[i];
+            Warning.transform.position = SavedSpotsF[i];
             WarningF.Add(Warning);
         }
         return WarningF;
     }
 
-    public void PickaxePatternWarningMark() { }
+    public void PickaxePatternWarningMark()
+    {
+
+    }
 }

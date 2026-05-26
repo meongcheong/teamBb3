@@ -1,12 +1,18 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player_Move : MonoBehaviour
 {
     public float speed = 3f; // 속도
     public float dashSpeed = 10f; // 대시 속도
     public float dashTime = 0.2f; // 대시 길이
-    public float dashCooldown = 2f; // 대시 쿨타임
+    public float dashCooldown = 5f; // 대시 쿨타임
+    float dashTimer = 0f;
+    bool isDashing = false;
+
+    public Image dashUiImage;
+    public Image skillUiImage;
 
     public Sprite imgUp;    // 뒷모습
     public Sprite imgDown;  // 앞모습
@@ -15,8 +21,6 @@ public class Player_Move : MonoBehaviour
     public Vector3 lastDir;
     float moveX;
     float moveY;
-    float dashTimer = 0f;
-    bool isDashing = false;
 
     // 마지막으로 누른 방향이 어디였는지 글자로 기억
     // 처음에 가만히 있을 때는 앞모습이 디폴트니까 기본값은 Down
@@ -36,6 +40,20 @@ public class Player_Move : MonoBehaviour
         if (dashTimer > 0)
         {
             dashTimer -= Time.deltaTime;
+
+            // 남은 대시 시간을 전체 쿨타임으로 나누어 1에서 0으로 줄어드는 비율을 만듦
+            if (dashUiImage != null)
+            {
+                dashUiImage.fillAmount = dashTimer / dashCooldown;
+            }
+        }
+        else
+        {
+            // 쿨타임이 완전히 끝나면 대시 아이콘을 다 찬 상태로 비워줌
+            if (dashUiImage != null)
+            {
+                dashUiImage.fillAmount = 0f;
+            }
         }
 
         InputCheck();

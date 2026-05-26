@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player_Status : MonoBehaviour
 {
@@ -10,23 +11,37 @@ public class Player_Status : MonoBehaviour
     public float invincibleTime = 0.44f;
     bool isInvincible = false;
 
+    // HP 바
+    public Slider hpSlider;
+
     void Start()
     {
         currentHP = maxHP;
+
+        // 게임 시작할 때 체력바를 최대치로 설정
+        if (hpSlider != null)
+        {
+            hpSlider.maxValue = maxHP;
+            hpSlider.value = currentHP;
+        }
     }
 
     // 체력 회복 (황금사과)
     public void AddHealth(float amount)
     {
-        // 체력이 이미 꽉 차있으면 더하지 않음
         if (currentHP < maxHP)
         {
             currentHP += amount;
 
-            // 만약 더했는데 최대 체력을 넘어버리면 최대치로 고정
             if (currentHP > maxHP)
             {
                 currentHP = maxHP;
+            }
+
+            // 피가 차면 체력바 UI도 체력 참
+            if (hpSlider != null)
+            {
+                hpSlider.value = currentHP;
             }
 
             Debug.Log("사과 획득! 현재 체력: " + currentHP);
@@ -39,6 +54,12 @@ public class Player_Status : MonoBehaviour
 
         currentHP -= damage;
         Debug.Log("현재 체력: " + currentHP);
+
+        // 피가 깎였을땐 체력바 UI도 체력 줆
+        if (hpSlider != null)
+        {
+            hpSlider.value = currentHP;
+        }
 
         if (currentHP <= 0)
         {

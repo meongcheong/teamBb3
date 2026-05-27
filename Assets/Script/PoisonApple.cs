@@ -35,7 +35,7 @@ public class PoisonApple : MonoBehaviour
     {
         if (hasHit) return; // 이미 맞았으면 무시
 
-        // 보스(Boss) 태그를 가진 오브젝트와 부딪혔을 때
+        // 보스 태그를 가진 오브젝트와 부딪혔을 때
         if (col.CompareTag("Boss"))
         {
             hasHit = true; // 한 번만 맞게 제한
@@ -45,7 +45,7 @@ public class PoisonApple : MonoBehaviour
             if (boss != null)
             {
               
-                // [새로 추가] 보스 스크립트에게 "너 독사과 맞았어!"라고 알려줍니다.
+                // 보스 스크립트에게 독사과 맞은 신호 보냄
                 boss.HitByPoisonApple();
             }
 

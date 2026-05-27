@@ -54,7 +54,7 @@ public class Player_Move : MonoBehaviour
             {
                 dashUiImage.fillAmount = 0f;
             }
-        }
+        }  // 독사과 Ui 코드 추가해서 작성하기!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         InputCheck();
         Move();

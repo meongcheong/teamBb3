@@ -8,7 +8,7 @@ public class Player_Attack : MonoBehaviour
     public GameObject PoisonApplePrefab;
     public float PoisonAppleSpeed;
 
-    public float skillCooldown = 15f;
+    public float skillCooldown = 15.0f;
     float skillTimer = 0f;
 
     // 평타 연속 공격을 막기 위한 쿨타임 (0.8초)

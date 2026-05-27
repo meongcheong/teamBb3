@@ -18,11 +18,11 @@ public class SquirrelSpawner : MonoBehaviour
         // 생성 위치 결정
         if (Random.value > 0.5f)
         {
-            spawnPos = new Vector2(-9f, randomY);
+            spawnPos = new Vector2(-8.27f, randomY);
         }
         else
         {
-            spawnPos = new Vector2(9f, randomY);
+            spawnPos = new Vector2(8.25f, randomY);
         }
 
         // 생성!

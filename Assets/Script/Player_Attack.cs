@@ -9,11 +9,11 @@ public class Player_Attack : MonoBehaviour
     public float PoisonAppleSpeed;
 
     public float skillCooldown = 15.0f;
-    float skillTimer = 0f;
+    public float skillTimer = 0f;
 
     // 평타 연속 공격을 막기 위한 쿨타임 (0.8초)
     public float attackCooldown = 0.8f;
-    float attackTimer = 0f;
+    public float attackTimer = 0f;
 
     // 59x56 크기의 충돌 상자를 담을 변수
     public GameObject attackArea;

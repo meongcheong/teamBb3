@@ -22,22 +22,26 @@ public class Player_Move : MonoBehaviour
     float moveX;
     float moveY;
 
+    public Vector3 inputVec;
+
     // 마지막으로 누른 방향이 어디였는지 글자로 기억
     // 처음에 가만히 있을 때는 앞모습이 디폴트니까 기본값은 Down
     string lastVerticalState = "Down";
 
     Player_Attack combat;
     SpriteRenderer spriter;
+    Animator anim;
 
-    void Awake()
+    void Awake() // 초기화
     {
         combat = GetComponent<Player_Attack>();
         spriter = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
     }
 
     void Update()
     {
-        if (dashTimer > 0)
+        if (dashTimer > 0) // 대시 UI
         {
             dashTimer -= Time.deltaTime;
 
@@ -54,7 +58,23 @@ public class Player_Move : MonoBehaviour
             {
                 dashUiImage.fillAmount = 0f;
             }
-        }  // 독사과 Ui 코드 추가해서 작성하기!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        }
+
+        // 독사과 UI
+        if (combat != null && combat.skillTimer > 0)
+        {
+            if (skillUiImage != null)
+            {
+                skillUiImage.fillAmount = combat.skillTimer / combat.skillCooldown;
+            }
+        }
+        else
+        {
+            if (skillUiImage != null)
+            {
+                skillUiImage.fillAmount = 0f; // 쿨타임이 아니면 다 찬 상태로 유지
+            }
+        }
 
         InputCheck();
         Move();
@@ -74,11 +94,12 @@ public class Player_Move : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W)) lastVerticalState = "Up";
         if (Input.GetKeyDown(KeyCode.S)) lastVerticalState = "Down";
 
-        Vector3 inputDir = new Vector3(moveX, moveY, 0);
+        // inputVec에 입력값을 넣어 공유
+        inputVec = new Vector3(moveX, moveY, 0).normalized;
 
-        if (inputDir != Vector3.zero)
+        if (inputVec != Vector3.zero)
         {
-            lastDir = inputDir.normalized;
+            lastDir = inputVec;
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -96,7 +117,7 @@ public class Player_Move : MonoBehaviour
             if (isDashing == true) return;
             if (dashTimer > 0) return;
 
-            Vector3 dir = inputDir.normalized;
+            Vector3 dir = inputVec;
 
             if (dir == Vector3.zero)
             {
@@ -111,9 +132,7 @@ public class Player_Move : MonoBehaviour
     void Move()
     {
         if (isDashing == true) return;
-
-        Vector3 move = new Vector3(moveX, moveY, 0).normalized;
-        transform.Translate(move * speed * Time.deltaTime);
+        transform.Translate(inputVec * speed * Time.deltaTime);
     }
 
     IEnumerator Dash(Vector3 dir)
@@ -133,46 +152,30 @@ public class Player_Move : MonoBehaviour
 
     void LateUpdate()
     {
+        // 애니메이터에 속도 값을 넘겨줌
+        if (anim != null)
+        {
+            anim.SetFloat("Speed", inputVec.magnitude);
+        }
+
         // 화면 밖으로 못 나가게 막기
         Vector3 pos = transform.position;
         pos.x = Mathf.Clamp(pos.x, -8.27f, 8.25f);
         pos.y = Mathf.Clamp(pos.y, -3.91f, 0.21f);
         transform.position = pos;
 
-        // 이동 방향에 따른 이미지 처리
+       
         if (spriter != null)
         {
-            // 위나 아래로만 움직이고 있을 때
-            if (moveY > 0)
+            if (inputVec.magnitude > 0)
             {
-                spriter.sprite = imgUp;
-                if (moveX > 0) spriter.flipX = false;
-                else if (moveX < 0) spriter.flipX = true;
-            }
-            else if (moveY < 0)
-            {
-                spriter.sprite = imgDown;
-                if (moveX > 0) spriter.flipX = false;
-                else if (moveX < 0) spriter.flipX = true;
-            }
-            // 좌우키만 단독으로 누르고 있을 때
-            else if (moveX != 0)
-            {
-                // 마지막으로 누른 키가 W였다면? -> 뒷모습으로 플립
-                if (lastVerticalState == "Up")
+                if (moveX > 0)
                 {
-                    spriter.sprite = imgUp;
-
-                    if (moveX > 0) spriter.flipX = false; // D 누르면 정방향 뒷모습
-                    else if (moveX < 0) spriter.flipX = true; // A 누르면 뒤집힌 뒷모습
+                    spriter.flipX = true; // 오른쪽 갈 때 원래 이미지 방향
                 }
-                // 마지막으로 누른 키가 S였다면 -> 앞모습으로 플립
-                else if (lastVerticalState == "Down")
+                else if (moveX < 0)
                 {
-                    spriter.sprite = imgDown;
-
-                    if (moveX > 0) spriter.flipX = true; // D 누르면 정방향 앞모습
-                    else if (moveX < 0) spriter.flipX = false; // A 누르면 뒤집힌 앞모습
+                    spriter.flipX = false;  // 왼쪽 갈 때 이미지 뒤집기
                 }
             }
         }

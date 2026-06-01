@@ -9,9 +9,13 @@ public class Squirrel : MonoBehaviour
     private bool droppedApple = false;
     private SquirrelSpawner spawner;
 
+    // ★ 다람쥐 이미지를 뒤집기 위해 스프라이트 렌더러를 담을 주머니 추가
+    private SpriteRenderer spriter;
+
     void Start()
     {
-        // 1. 화면에 있는 스포너 찾기
+        // 1. 컴포넌트 및 스포너 찾기
+        spriter = GetComponent<SpriteRenderer>(); // ★ 추가
         spawner = FindFirstObjectByType<SquirrelSpawner>();
 
         // 2. 이동 방향 결정
@@ -21,17 +25,29 @@ public class Squirrel : MonoBehaviour
         {
             // 왼쪽에서 생성됨 -> 오른쪽으로 이동
             moveDirection = new Vector2(1, randomY);
+
+            // ★ [방향 제어] 오른쪽으로 뛸 때의 이미지 방향 설정
+            if (spriter != null)
+            {
+                spriter.flipX = false; // 만약 반대로 뛰면 true로 바꾸기!
+            }
         }
         else
         {
             // 오른쪽에서 생성됨 -> 왼쪽으로 이동
             moveDirection = new Vector2(-1, randomY);
+
+            // ★ [방향 제어] 왼쪽으로 뛸 때의 이미지 방향 설정
+            if (spriter != null)
+            {
+                spriter.flipX = true;  // 만약 반대로 뛰면 false로 바꾸기!
+            }
         }
 
         // 방향 벡터를 정규화 (대각선이라고 더 빨라지지 않게 함)
         moveDirection = moveDirection.normalized;
 
-        // 3. 몇 초 뒤에 사과 떨어뜨릴지 예약
+        // 몇 초 뒤에 사과 떨어뜨릴지 예약
         float randomDelay = Random.Range(0.6f, 2.2f);
         Invoke("DropApple", randomDelay);
     }

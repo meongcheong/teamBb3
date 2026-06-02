@@ -2,19 +2,24 @@ using UnityEngine;
 
 public class PickaxeInputCheck : MonoBehaviour
 {
-    public bool PickaxeInput = false;
+    public Player_Status status;
+    public float PickaxeDamagePower = 10; 
+    private bool hit = false;
+    
     void OnTriggerEnter2D(Collider2D other)
     {
+        if (hit)
+            return;
         if (other.CompareTag("player"))
-            PickaxeInput = true;
-        Debug.Log("적중");
+        {
+            status.TakeDamage(PickaxeDamagePower);
+            hit = true;
+            Debug.Log("적중");
+        }
+       
     }
 
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("player"))
-            PickaxeInput = false;
-    }
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

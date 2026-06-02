@@ -172,16 +172,6 @@ public class UseFuntion
                 Rock.transform.position = SavedSpotsF[i];
                 RockObject.Add(Rock);
             }
-            
-            HitCheck = true;
-            if (HitCheck)
-            {
-                if (FallingRockInputCheck.FallingRockInputCheck)
-                {
-                    status.TakeDamage(FallingRocksDamagePower);
-                    Debug.Log("ÀûÁß");
-                }
-            }
             if (RockObject != null)
             {
 
@@ -203,43 +193,48 @@ public class UseFuntion
     }
 
     /*=====°î±ªÀÌ ÆÐÅÏ===================================================================================================*/
-    PickaxeInputCheck PickaxeInput = new PickaxeInputCheck();
+    
 
     GameObject PickaxeObject;
     public bool Pickaxe = false;
-    public float PickaxeDamagePower = 10;
+    
     public float PickaxePatternDamageTimer;
     public bool PickaxeCreateTriger = false;
     Vector2 PlayerPositionCheck;
 
+    Vector2 SavedSpotsPickaxe;
+
+
     public void PickaxePattern()
     {
+        
+        GameObject SavedSpotsP = GameObject.Find("Player");
+        
         PickaxePatternDamageTimer += Time.deltaTime;
         if (PickaxeCreateTriger == true)
         {
-            PickaxeObject = Object.Instantiate(PickaxeAnimation);
-            PickaxePositionChecking();
-            PickaxeObject.transform.position = PlayerPositionCheck;
-            Object.Destroy(PickaxeObject, 0.7f);
+            SavedSpotsPickaxe = SavedSpotsP.transform.position;
+            GameObject Pickaxe_Warning = PickaxePatternWarningMark(SavedSpotsPickaxe);
+            Object.Destroy(Pickaxe_Warning, 2f);
+
+
         }
         PickaxeCreateTriger = false;
-        if (PickaxePatternDamageTimer > 0.7f)
+        if (PickaxePatternDamageTimer > 2f)
         {
-            if (PickaxeInput.PickaxeInput)
-            {
-                status.TakeDamage(PickaxeDamagePower);
-                Debug.Log("ÀûÁß");
-            }
+            PickaxeObject = Object.Instantiate(PickaxeAnimation);
+            Vector2 Pos = SavedSpotsPickaxe;
+            Pos.y += 2f;
+            PickaxeObject.transform.position = Pos;
+
+            Object.Destroy(PickaxeObject, 0.7f);
             PickaxePatternDamageTimer = 0;
             Pickaxe = false;
+           
         }
     }
 
-    public Vector2 PickaxePositionChecking()
-    {
-        PlayerPositionCheck = player.position;
-        return PlayerPositionCheck;
-    }
+    
 
     /*=====Æø¹ß ÆÐÅÏ===================================================================================================*/
     BoomInputCheck BoomInputCheck = new BoomInputCheck();
@@ -292,19 +287,13 @@ public class UseFuntion
             for (int i = 0; i < 2; i++)
             {
                 GameObject Boom = Object.Instantiate(BoomAnimation);
-                Boom.transform.position = SavedSpotsB[i];
+                Vector2 Pos = SavedSpotsB[i];
+                Pos.y += 2.5f;
+                Boom.transform.position = Pos;
                 BoomObject.Add(Boom);
             }
 
-            HitCheck = true;
-            if (HitCheck)
-            {
-                if (BoomInputCheck.BoomInput)
-                {
-                    status.TakeDamage(BoomDamagePower);
-                    Debug.Log("ÀûÁß");
-                }
-            }
+           
 
             if (BoomObject != null)
             {
@@ -318,7 +307,7 @@ public class UseFuntion
             BoomPatternTimer = 2f;
             WarningMarkB = null;
             SavedSpotsB = null;
-            HitCheck = false;
+            
         }
     }
 
@@ -350,8 +339,11 @@ public class UseFuntion
         return WarningF;
     }
 
-    public void PickaxePatternWarningMark()
+    public GameObject PickaxePatternWarningMark(Vector2 SavedSpotsP)
     {
-
+        GameObject Warning = Object.Instantiate(PickaxeWarning);
+        Vector2 WarningP = SavedSpotsP;
+        Warning.transform.position = WarningP;
+        return Warning;
     }
 }

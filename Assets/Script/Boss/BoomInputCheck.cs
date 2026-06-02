@@ -7,14 +7,9 @@ public class BoomInputCheck : MonoBehaviour
     {
         if (other.CompareTag("player"))
             BoomInput = true;
-        Debug.Log("РћСп");
     }
 
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("player"))
-            BoomInput = false;
-    }
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

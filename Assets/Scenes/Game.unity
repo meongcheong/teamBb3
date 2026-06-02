@@ -6160,6 +6160,10 @@ PrefabInstance:
       propertyPath: hpSlider
       value: 
       objectReference: {fileID: 714434475}
+    - target: {fileID: 6930180031608738463, guid: 98dec73d89352c442bdb38ecfa94b987, type: 3}
+      propertyPath: currentHP
+      value: 500
+      objectReference: {fileID: 0}
     - target: {fileID: 7285818743925933713, guid: 98dec73d89352c442bdb38ecfa94b987, type: 3}
       propertyPath: attackArea
       value: 

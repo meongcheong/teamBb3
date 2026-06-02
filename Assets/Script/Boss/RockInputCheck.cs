@@ -2,28 +2,20 @@ using UnityEngine;
 
 public class RockInputCheck : MonoBehaviour
 {
-    public bool FallingRockInputCheck = false;
+    public Player_Status status;
+    public float FallingRocksDamagePower = 10;
+    bool Fhit = false;
+
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("player"))
-            FallingRockInputCheck = true;
-        Debug.Log("적중");
-    }
+        if (Fhit)
+            return;
+        if (other.CompareTag("Player"))
+        {
+            status.TakeDamage(FallingRocksDamagePower);
 
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("player"))
-            FallingRockInputCheck = false;
-    }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+            Debug.Log("적중");
+        }
+        Fhit = true;
     }
 }

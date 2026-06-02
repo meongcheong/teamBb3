@@ -2,23 +2,20 @@ using UnityEngine;
 
 public class BoomInputCheck : MonoBehaviour
 {
-    public bool BoomInput = false;
+    public Player_Status status;
+    public float BoomDamagePower = 10;
+    bool Bhit = false;
+
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("player"))
-            BoomInput = true;
-    }
+        if (Bhit)
+            return;
+        if (other.CompareTag("Player"))
+        {
+            status.TakeDamage(BoomDamagePower);
 
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+            Debug.Log("РћСп");
+        }
+        Bhit = true;
     }
 }

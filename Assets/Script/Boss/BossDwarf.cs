@@ -7,6 +7,7 @@ using UnityEngine.Rendering.Universal;
 public class BossDwarf : MonoBehaviour
 {
     private UseFuntion UseFuntion = new UseFuntion();
+    private BossPatternManager BossPatternManager = new BossPatternManager();
     public float hp = 30f;
     public Transform player;
     public Player_Status status;
@@ -34,34 +35,24 @@ public class BossDwarf : MonoBehaviour
         UseFuntion.FallingRockWarning = FallingRockWarning;
         UseFuntion.PickaxeWarning = PickaxeWarning;
         UseFuntion.BoomWarning = BoomWarning;
+        BossPatternManager.UseFuntion = UseFuntion;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            UseFuntion.FallingRocksPatternTrigger = true;
-        }
+        BossPatternManager.PatternStart();
+        
         if (UseFuntion.FallingRocksPatternTrigger)
         {
             UseFuntion.FallingRocksPattern();
         }
 
-        /*°î±ªÀÌ ÆÐÅÏ*/
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            UseFuntion.Pickaxe = true;//°î±ªÀÌ ÆÐÅÏ Æ®¸®°Å
-            UseFuntion.PickaxeCreateTriger = true;
-        }
+        
         if (UseFuntion.Pickaxe == true)
         {
             UseFuntion.PickaxePattern();
         }
 
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            UseFuntion.BoomPatternTrigger = true;
-        }
         if (UseFuntion.BoomPatternTrigger)//=>½ÇÇà
         {
             UseFuntion.BoomPattern();
@@ -118,7 +109,7 @@ public class UseFuntion
     
     public float FallingRocksPatternBoundary = 10.0f;
     List<GameObject> WarningMarkF;
-    public float FallingRocksDamagePower = 10;
+    
     public bool FallingRocksPatternTrigger = false;
     float MaxY = -1.0f;
     float MinY = -5.0f;
@@ -241,7 +232,7 @@ public class UseFuntion
     public float BoomPatternTimer = 2;
     public float BoomPatternBoundary = 10.0f;
     List<GameObject> BoomObject;
-    public float BoomDamagePower = 10;
+    
     public bool BoomPatternTrigger = false;
     List<GameObject> WarningMarkB;
     float BoomMaxY = -1.0f;
@@ -345,5 +336,38 @@ public class UseFuntion
         Vector2 WarningP = SavedSpotsP;
         Warning.transform.position = WarningP;
         return Warning;
+    }
+}
+public class BossPatternManager
+{
+    public UseFuntion UseFuntion;
+    float timer = 3f;
+
+    public void PatternStart()
+    {
+        timer -= Time.deltaTime;
+
+        if (timer <= 0)
+        {
+            int randomPattern = Random.Range(0, 3);
+
+            switch (randomPattern)
+            {
+                case 0:
+                    UseFuntion.FallingRocksPatternTrigger = true;
+                    break;
+
+                case 1:
+                    UseFuntion.Pickaxe = true;
+                    UseFuntion.PickaxeCreateTriger = true;
+                    break;
+
+                case 2:
+                    UseFuntion.BoomPatternTrigger = true;
+                    break;
+            }
+
+            timer = 3f;
+        }
     }
 }

@@ -147,4 +147,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2c04b9bbec34964d96f248b71df4e74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FallingRockInputCheck: 0
+  status: {fileID: 6930180031608738463, guid: 98dec73d89352c442bdb38ecfa94b987, type: 3}
+  FallingRocksDamagePower: 10

@@ -89,7 +89,7 @@ SpriteRenderer:
   m_Size: {x: 4.48, y: 8.11}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &7285818743925933713
@@ -107,6 +107,10 @@ MonoBehaviour:
   PoisonApplePrefab: {fileID: 3283259311774250778, guid: 1ac956bd498015a41b3264e15c16a43c, type: 3}
   PoisonAppleSpeed: 0
   skillCooldown: 15
+  skillTimer: 0
+  attackCooldown: 0.8
+  attackTimer: 0
+  attackArea: {fileID: 0}
 --- !u!114 &979258306912234336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,10 +123,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cac2e74835aa024a8e2ce0787ee1a78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lastDir: {x: 0, y: 0, z: 0}
   speed: 5
   dashSpeed: 10
   dashTime: 0.2
+  dashCooldown: 5
+  dashUiImage: {fileID: 0}
+  skillUiImage: {fileID: 0}
+  imgUp: {fileID: 0}
+  imgDown: {fileID: 0}
+  imgRight: {fileID: 0}
+  lastDir: {x: 0, y: 0, z: 0}
+  inputVec: {x: 0, y: 0, z: 0}
 --- !u!114 &6930180031608738463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,10 +146,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6b61634d9f2094478ace06fda018e0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 10
+  maxHP: 100
   currentHP: 0
   attackPower: 1
   invincibleTime: 0.44
+  hpSlider: {fileID: 0}
 --- !u!61 &5807416999187981861
 BoxCollider2D:
   m_ObjectHideFlags: 0

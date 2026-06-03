@@ -40,6 +40,11 @@ public class BossDwarf : MonoBehaviour
 
     void Update()
     {
+        if (isPoisoned == true)
+        {
+            return;
+        } // 여기까지 채연 추가
+
         BossPatternManager.PatternStart();
         
         if (UseFuntion.FallingRocksPatternTrigger)
@@ -78,6 +83,8 @@ public class BossDwarf : MonoBehaviour
         isPoisoned = true;
         Debug.Log("보스가 독사과에 맞아 평타 공격이 가능한 상태가 되었습니다!");
 
+        CleanUpCurrentPatterns();
+
         // 5초 뒤에 독사과 상태를 자동으로 해제 
         Invoke("CurePoison", 5f);
     }
@@ -88,7 +95,28 @@ public class BossDwarf : MonoBehaviour
         isPoisoned = false;
         Debug.Log("보스의 독사과 효과가 사라졌습니다.");
     }
-} 
+
+    void CleanUpCurrentPatterns()
+    {
+        // 트리거 끔
+        UseFuntion.FallingRocksPatternTrigger = false;
+        UseFuntion.Pickaxe = false;
+        UseFuntion.PickaxeCreateTriger = false;
+        UseFuntion.BoomPatternTrigger = false;
+
+        // 타이머 리셋
+        UseFuntion.FallingRocksPatternTimer = 2f;
+        UseFuntion.PickaxePatternDamageTimer = 0f;
+        UseFuntion.BoomPatternTimer = 2f;
+
+        // 프리팹 청소
+        GameObject[] warnings = GameObject.FindGameObjectsWithTag("Warning");
+        foreach (GameObject w in warnings)
+        {
+            Destroy(w);
+        }
+    }
+} // 여기까지 채연 추가
 
 public class UseFuntion
 {

@@ -89,4 +89,12 @@ public class Option : MonoBehaviour
         Debug.Log("LOBBY");
     }
 
+    // 게임 재시작
+    public void RestartGame()
+    {
+        Debug.Log("RESTART GAME");
+        // 현재 열려 있는 씬의 이름을 가져와서 새로 새로고침(새로고딩) 합니다.
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
 }

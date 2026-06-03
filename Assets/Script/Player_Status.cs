@@ -13,6 +13,7 @@ public class Player_Status : MonoBehaviour
 
     // HP 바
     public Slider hpSlider;
+    public GameObject gameOverCanvas;
 
     void Start()
     {
@@ -23,6 +24,10 @@ public class Player_Status : MonoBehaviour
         {
             hpSlider.maxValue = maxHP;
             hpSlider.value = currentHP;
+        }
+        if (gameOverCanvas != null)
+        {
+            gameOverCanvas.SetActive(false);
         }
     }
 
@@ -74,5 +79,27 @@ public class Player_Status : MonoBehaviour
         isInvincible = true;
         yield return new WaitForSeconds(invincibleTime);
         isInvincible = false;
+    }
+
+    void Die()
+    {
+        Debug.Log("플레이어 사망! 게임 오버!");
+
+        MonoBehaviour moveScript = GetComponent("Player_Move") as MonoBehaviour;
+        if (moveScript != null)
+        {
+            moveScript.enabled = false;
+        }
+
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
+
+        if (gameOverCanvas != null)
+        {
+            gameOverCanvas.SetActive(true);
+        }
     }
 }

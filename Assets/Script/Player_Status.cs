@@ -55,7 +55,7 @@ public class Player_Status : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if (isInvincible) return;
+        if (isInvincible || !gameObject.activeInHierarchy) return;
 
         currentHP -= damage;
         Debug.Log("현재 체력: " + currentHP);
@@ -69,6 +69,7 @@ public class Player_Status : MonoBehaviour
         if (currentHP <= 0)
         {
             Debug.Log("플레이어 사망!");
+            return;
         }
 
         StartCoroutine(Invincible());

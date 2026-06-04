@@ -103,10 +103,10 @@ TextureImporter:
       name: "\uB09C\uC7C1\uC774 idle_0002_0"
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 912
-        height: 914
+        x: 16
+        y: 5
+        width: 862
+        height: 899
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

@@ -19,6 +19,12 @@ public class BossDwarf : MonoBehaviour
     public GameObject PickaxeWarning;
     public GameObject BoomWarning;
 
+    public GameObject IdleMotion;
+    public GameObject PickaxeMotionAnimation;
+
+    GameObject IdleMotionObject;
+    GameObject PickaxeMotionObject;
+    bool pickaxeMotionPlayed = false;
 
     // 채연추가
     [Header("상태 체크")] 
@@ -31,11 +37,17 @@ public class BossDwarf : MonoBehaviour
         UseFuntion.FallingRock = FallingRock;
         UseFuntion.PickaxeAnimation = PickaxeAnimation;
         UseFuntion.BoomAnimation = BoomAnimation;
-
+        
         UseFuntion.FallingRockWarning = FallingRockWarning;
         UseFuntion.PickaxeWarning = PickaxeWarning;
         UseFuntion.BoomWarning = BoomWarning;
         BossPatternManager.UseFuntion = UseFuntion;
+
+        
+
+
+        IdleMotionObject = Instantiate(IdleMotion);
+
     }
 
     void Update()
@@ -47,21 +59,52 @@ public class BossDwarf : MonoBehaviour
 
         BossPatternManager.PatternStart();
         
-        if (UseFuntion.FallingRocksPatternTrigger)
+        
+        if (UseFuntion.FallingRocksPatternTrigger == true)
         {
             UseFuntion.FallingRocksPattern();
         }
 
-        
+
         if (UseFuntion.Pickaxe == true)
         {
             UseFuntion.PickaxePattern();
+
+            if (pickaxeMotionPlayed == false)
+            {
+                pickaxeMotionPlayed = true;
+                Invoke("PickaxeMotion", 2.0f);
+            }
+        }
+        else
+        {
+            pickaxeMotionPlayed = false;
         }
 
-        if (UseFuntion.BoomPatternTrigger)//=>실행
+
+        if (UseFuntion.BoomPatternTrigger == true)//=>실행
         {
             UseFuntion.BoomPattern();
         }
+
+        
+    }
+    public void PickaxeMotion()
+    {
+        if (IdleMotionObject != null)
+        {
+            Destroy(IdleMotionObject);
+        }
+
+        PickaxeMotionObject = Instantiate(PickaxeMotionAnimation);
+        Destroy(PickaxeMotionObject, 0.7f);
+
+        Invoke("ReturnIdleMotion", 0.7f);
+    }
+
+    void ReturnIdleMotion()
+    {
+        IdleMotionObject = Instantiate(IdleMotion);
     }
 
     public void TakeDamage(float damage)
@@ -129,7 +172,8 @@ public class UseFuntion
     public GameObject FallingRockWarning;
     public GameObject PickaxeWarning;
     public GameObject BoomWarning;
-
+    public GameObject PickaxeMotionAnimation;
+    
     /*======낙석패턴===========================================================================================*/
     RockInputCheck FallingRockInputCheck = new RockInputCheck();
 
@@ -241,6 +285,7 @@ public class UseFuntion
         PickaxeCreateTriger = false;
         if (PickaxePatternDamageTimer > 2f)
         {
+            
             PickaxeObject = Object.Instantiate(PickaxeAnimation);
             Vector2 Pos = SavedSpotsPickaxe;
             Pos.y += 2f;
@@ -365,6 +410,10 @@ public class UseFuntion
         Warning.transform.position = WarningP;
         return Warning;
     }
+
+   
+
+    
 }
 public class BossPatternManager
 {

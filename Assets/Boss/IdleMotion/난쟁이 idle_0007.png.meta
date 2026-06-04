@@ -5,6 +5,12 @@ TextureImporter:
   - first:
       213: 4253240291253179055
     second: "\uB09C\uC7C1\uC774 idle_0007_0"
+  - first:
+      213: -2253342372144786627
+    second: "\uB09C\uC7C1\uC774 idle_0007_1"
+  - first:
+      213: -7233819667587779294
+    second: "\uB09C\uC7C1\uC774 idle_0007_2"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -103,10 +109,10 @@ TextureImporter:
       name: "\uB09C\uC7C1\uC774 idle_0007_0"
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 912
-        height: 914
+        x: 8
+        y: 12
+        width: 869
+        height: 883
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -117,6 +123,50 @@ TextureImporter:
       bones: []
       spriteID: fa25680a28b860b30800000000000000
       internalID: 4253240291253179055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "\uB09C\uC7C1\uC774 idle_0007_1"
+      rect:
+        serializedVersion: 2
+        x: 343
+        y: 890
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3359fe1d058ab0e0800000000000000
+      internalID: -2253342372144786627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "\uB09C\uC7C1\uC774 idle_0007_2"
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 894
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2253238b65f4c9b90800000000000000
+      internalID: -7233819667587779294
       vertices: []
       indices: 
       edges: []
@@ -136,6 +186,8 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       "\uB09C\uC7C1\uC774 idle_0007_0": 4253240291253179055
+      "\uB09C\uC7C1\uC774 idle_0007_1": -2253342372144786627
+      "\uB09C\uC7C1\uC774 idle_0007_2": -7233819667587779294
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

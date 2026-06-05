@@ -112,6 +112,8 @@ MonoBehaviour:
   BoomWarning: {fileID: 6210408035956548417, guid: 06e32c76792c2fa4faf540129cc0e9a4, type: 3}
   IdleMotion: {fileID: 899020726159753981, guid: ec5d5ef3b33e0fb4cb394987c28fed90, type: 3}
   PickaxeMotionAnimation: {fileID: 7374337349627308838, guid: 3e563d968472b25409b3bf3a4947b033, type: 3}
+  isGroggy: 0
+  GroggyMotionAnimation: {fileID: 4724411070624978090, guid: 9f9c842d089187a4b80db2fa59f8682c, type: 3}
   isPoisoned: 0
 --- !u!61 &3591696335027843593
 BoxCollider2D:

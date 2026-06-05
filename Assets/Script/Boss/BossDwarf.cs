@@ -26,6 +26,10 @@ public class BossDwarf : MonoBehaviour
     GameObject PickaxeMotionObject;
     bool pickaxeMotionPlayed = false;
 
+    public bool isGroggy = false;
+    public GameObject GroggyMotionAnimation;
+    GameObject GroggyMotionObject;
+
     // 채연추가
     [Header("상태 체크")] 
     public bool isPoisoned = false; // 독사과를 맞았는지 기억하는 변수
@@ -52,10 +56,10 @@ public class BossDwarf : MonoBehaviour
 
     void Update()
     {
-        if (isPoisoned == true)
+        if (isPoisoned == true || isGroggy == true)
         {
             return;
-        } // 여기까지 채연 추가
+        }
 
         BossPatternManager.PatternStart();
         
@@ -125,7 +129,7 @@ public class BossDwarf : MonoBehaviour
     {
         isPoisoned = true;
         Debug.Log("보스가 독사과에 맞아 평타 공격이 가능한 상태가 되었습니다!");
-
+        StartGroggy();
         CleanUpCurrentPatterns();
 
         // 5초 뒤에 독사과 상태를 자동으로 해제 
@@ -158,8 +162,40 @@ public class BossDwarf : MonoBehaviour
         {
             Destroy(w);
         }
+    } // 여기까지 채연 추가
+
+    public void StartGroggy()
+    {
+        isGroggy = true;
+
+        CleanUpCurrentPatterns();
+
+        CancelInvoke("PickaxeMotion");
+        CancelInvoke("ReturnIdleMotion");
+
+        if (IdleMotionObject != null)
+        {
+            Destroy(IdleMotionObject);
+        }
+
+        GroggyMotionObject = Instantiate(GroggyMotionAnimation);
+
+        Invoke("EndGroggy", 5f);
     }
-} // 여기까지 채연 추가
+
+    void EndGroggy()
+    {
+        isGroggy = false;
+
+        if (GroggyMotionObject != null)
+        {
+            Destroy(GroggyMotionObject);
+        }
+
+        IdleMotionObject = Instantiate(IdleMotion);
+    }
+}
+
 
 public class UseFuntion
 {

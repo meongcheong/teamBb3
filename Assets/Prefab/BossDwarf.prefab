@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1042849616447680372}
   - component: {fileID: 6873509377269614751}
   - component: {fileID: 3591696335027843593}
+  - component: {fileID: 4705697003232904786}
   m_Layer: 9
   m_Name: BossDwarf
   m_TagString: Boss
@@ -113,7 +114,17 @@ MonoBehaviour:
   IdleMotion: {fileID: 899020726159753981, guid: ec5d5ef3b33e0fb4cb394987c28fed90, type: 3}
   PickaxeMotionAnimation: {fileID: 7374337349627308838, guid: 3e563d968472b25409b3bf3a4947b033, type: 3}
   isGroggy: 0
-  GroggyMotionAnimation: {fileID: 4724411070624978090, guid: 9f9c842d089187a4b80db2fa59f8682c, type: 3}
+  GroggyMotionAnimation: {fileID: 7877806805242637313, guid: 02bfc532b4fa6d742acf974927ebe691, type: 3}
+  DeathMotionAnimation: {fileID: 4625897792623056109, guid: 94591dbdc293ce741b7d43da9970d5ae, type: 3}
+  BoomSound: {fileID: 8300000, guid: 912e7113dcf36504bae65950872d087d, type: 3}
+  FuseSound: {fileID: 8300000, guid: cf80cd1ee04719f4abc5e713e91c83b0, type: 3}
+  FallingRockSound: {fileID: 8300000, guid: f2ae2d1d41502254d9070e14b1961d5d, type: 3}
+  PickaxeSwingSound: {fileID: 8300000, guid: 45480591475eb3f41a30999671293357, type: 3}
+  DeathSound: {fileID: 0}
+  audioSource: {fileID: 4705697003232904786}
+  BoomSoundAdvance: 0.9
+  PickaxeSoundAdvance: 0.9
+  FallingRockSoundAdvance: 0.4
   isPoisoned: 0
 --- !u!61 &3591696335027843593
 BoxCollider2D:
@@ -161,3 +172,100 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 3, y: 5.17}
   m_EdgeRadius: 0
+--- !u!82 &4705697003232904786
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 146204943347224664}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

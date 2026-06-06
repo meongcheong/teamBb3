@@ -7,7 +7,7 @@ public class Player_Status : MonoBehaviour
     public float maxHP = 10f;
     public float currentHP;
 
-    public float attackPower = 1f;
+    public float attackPower = 10000f;
     public float invincibleTime = 0.44f;
     bool isInvincible = false;
 

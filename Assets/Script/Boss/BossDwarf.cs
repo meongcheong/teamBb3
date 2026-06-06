@@ -30,6 +30,24 @@ public class BossDwarf : MonoBehaviour
     public GameObject GroggyMotionAnimation;
     GameObject GroggyMotionObject;
 
+    bool isDead = false;
+    public GameObject DeathMotionAnimation;
+    GameObject DeathMotionObject;
+
+    public AudioClip BoomSound;
+    public AudioClip FuseSound;
+    public AudioClip FallingRockSound;
+    public AudioClip PickaxeSwingSound;
+    public AudioClip DeathSound;
+    public AudioSource audioSource;
+
+    
+
+    [Header("사운드 선행 재생")]
+    public float BoomSoundAdvance = 0f;
+    public float PickaxeSoundAdvance = 0f;
+    public float FallingRockSoundAdvance = 0f;
+
     // 채연추가
     [Header("상태 체크")] 
     public bool isPoisoned = false; // 독사과를 맞았는지 기억하는 변수
@@ -47,15 +65,29 @@ public class BossDwarf : MonoBehaviour
         UseFuntion.BoomWarning = BoomWarning;
         BossPatternManager.UseFuntion = UseFuntion;
 
-        
-
-
         IdleMotionObject = Instantiate(IdleMotion);
 
+        UseFuntion.audioSource = audioSource;
+
+        UseFuntion.BoomSound = BoomSound;
+        UseFuntion.FuseSound = FuseSound;
+        UseFuntion.FallingRockSound = FallingRockSound;
+        UseFuntion.PickaxeSwingSound = PickaxeSwingSound;
+
+
+
+        UseFuntion.BoomSoundAdvance = BoomSoundAdvance;
+        UseFuntion.PickaxeSwingSoundAdvance = PickaxeSoundAdvance;
+        UseFuntion.FallingRockSoundAdvance = FallingRockSoundAdvance;
     }
 
     void Update()
     {
+        if (isDead == true)
+        {
+            return;
+        }
+
         if (isPoisoned == true || isGroggy == true)
         {
             return;
@@ -113,14 +145,51 @@ public class BossDwarf : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        if (isDead == true)
+        {
+            return;
+        }
+
         hp -= damage;
         Debug.Log("보스 피격! 남은 HP: " + hp);
 
         if (hp <= 0)
         {
-            Debug.Log("보스 사망");
-            Object.Destroy(gameObject);
+            StartDeath();
         }
+    }
+
+    void StartDeath()
+    {
+        isDead = true;
+
+        CleanUpCurrentPatterns();
+
+        CancelInvoke();
+
+        if (IdleMotionObject != null)
+        {
+            Destroy(IdleMotionObject);
+        }
+
+        if (PickaxeMotionObject != null)
+        {
+            Destroy(PickaxeMotionObject);
+        }
+
+        if (GroggyMotionObject != null)
+        {
+            Destroy(GroggyMotionObject);
+        }
+
+        DeathMotionObject = Instantiate(DeathMotionAnimation);
+
+        if (DeathSound != null)
+        {
+            audioSource.PlayOneShot(DeathSound);
+        }
+
+        Destroy(gameObject, 2f);
     }
 
     // 채연추가
@@ -209,13 +278,19 @@ public class UseFuntion
     public GameObject PickaxeWarning;
     public GameObject BoomWarning;
     public GameObject PickaxeMotionAnimation;
-    
+
+    public float BoomSoundAdvance = 0f;
+    public float FallingRockSoundAdvance = 0f;
+    public float PickaxeSwingSoundAdvance = 0f;
+
+    public float PatternMinDistance = 2.5f;
+
     /*======낙석패턴===========================================================================================*/
     RockInputCheck FallingRockInputCheck = new RockInputCheck();
 
-    public float FallingRocksPatternTimer = 2;
+    public float FallingRocksPatternTimer = 1;
     
-    public float FallingRocksPatternBoundary = 10.0f;
+    public float FallingRocksPatternBoundary = 5.0f;
     List<GameObject> WarningMarkF;
     
     public bool FallingRocksPatternTrigger = false;
@@ -225,20 +300,53 @@ public class UseFuntion
     public List<Vector2> FallingRockPositionChecking()
     {
         List<Vector2> Squares = new List<Vector2>();
+
         for (int i = 0; i < 4; i++)
         {
             Vector2 Spot;
-            if (i == 0)
+            int tryCount = 0;
+
+            while (true)
             {
-                Spot = player.position;
+                if (i == 0)
+                {
+                    Debug.Log("player.position: " + player.position);
+                    Spot = player.position;
+                    Debug.Log("Saved Spot: " + Spot);
+                }
+                else
+                {
+                    Spot = (Vector2)player.position + Random.insideUnitCircle * FallingRocksPatternBoundary;
+                    Spot.y = Mathf.Clamp(Spot.y, MinY, MaxY);
+                }
+
+                bool tooClose = false;
+
+                foreach (Vector2 savedSpot in Squares)
+                {
+                    if (Vector2.Distance(Spot, savedSpot) < PatternMinDistance)
+                    {
+                        tooClose = true;
+                        break;
+                    }
+                }
+
+                if (tooClose == false)
+                {
+                    break;
+                }
+
+                tryCount++;
+
+                if (tryCount > 30)
+                {
+                    break;
+                }
             }
-            else
-            {
-                Spot = (Vector2)player.position + Random.insideUnitCircle * FallingRocksPatternBoundary;
-                Spot.y = Mathf.Clamp(Spot.y, MinY, MaxY);
-            }
+
             Squares.Add(Spot);
         }
+
         return Squares;
     }
 
@@ -256,17 +364,25 @@ public class UseFuntion
 
             WarningMarkF = FallingRocksPatternWarningMark(SavedSpotsF);
         }
-        
+        if (FallingRocksPatternTimer < FallingRockSoundAdvance && fallingRockSoundPlayed == false)
+        {
+            PlaySound(FallingRockSound);
+            fallingRockSoundPlayed = true;
+        }
         if (FallingRocksPatternTimer < 0)
         {
+            
             foreach (GameObject Obj in WarningMarkF)
             {
                 Object.Destroy(Obj);
             }
+            
+
             List<GameObject> RockObject = new List<GameObject>();
 
             for (int i = 0; i < 4; i++)
             {
+                Debug.Log($"경고 생성 위치 {i}: {SavedSpotsF[i]}");
                 GameObject Rock = Object.Instantiate(FallingRock);       
                 Rock.transform.position = SavedSpotsF[i];
                 RockObject.Add(Rock);
@@ -288,6 +404,7 @@ public class UseFuntion
             WarningMarkF = null;
             SavedSpotsF = null;
             HitCheck = false;
+            fallingRockSoundPlayed = false;
         }
     }
 
@@ -319,6 +436,11 @@ public class UseFuntion
 
         }
         PickaxeCreateTriger = false;
+        if (PickaxePatternDamageTimer > 1f - PickaxeSwingSoundAdvance && pickaxeSwingSoundPlayed == false)
+        {
+            PlaySound(PickaxeSwingSound);
+            pickaxeSwingSoundPlayed = true;
+        }
         if (PickaxePatternDamageTimer > 1f)
         {
             
@@ -330,7 +452,7 @@ public class UseFuntion
             Object.Destroy(PickaxeObject, 0.7f);
             PickaxePatternDamageTimer = 0;
             Pickaxe = false;
-           
+            pickaxeSwingSoundPlayed = false;
         }
     }
 
@@ -339,7 +461,7 @@ public class UseFuntion
     /*=====폭발 패턴===================================================================================================*/
     BoomInputCheck BoomInputCheck = new BoomInputCheck();
     public float BoomPatternTimer = 2;
-    public float BoomPatternBoundary = 10.0f;
+    public float BoomPatternBoundary = 6.0f;
     List<GameObject> BoomObject;
     
     public bool BoomPatternTrigger = false;
@@ -350,14 +472,44 @@ public class UseFuntion
     public List<Vector2> BoomPositionChecking()
     {
         List<Vector2> Squares = new List<Vector2>();
+
         for (int i = 0; i < 2; i++)
         {
-            
             Vector2 Spot;
-            Spot = (Vector2)player.position + Random.insideUnitCircle * FallingRocksPatternBoundary;
-            Spot.y = Mathf.Clamp(Spot.y, BoomMinY, BoomMaxY);
+            int tryCount = 0;
+
+            while (true)
+            {
+                Spot = (Vector2)player.position + Random.insideUnitCircle * BoomPatternBoundary;
+                Spot.y = Mathf.Clamp(Spot.y, BoomMinY, BoomMaxY);
+
+                bool tooClose = false;
+
+                foreach (Vector2 savedSpot in Squares)
+                {
+                    if (Vector2.Distance(Spot, savedSpot) < PatternMinDistance)
+                    {
+                        tooClose = true;
+                        break;
+                    }
+                }
+
+                if (tooClose == false)
+                {
+                    break;
+                }
+
+                tryCount++;
+
+                if (tryCount > 30)
+                {
+                    break;
+                }
+            }
+
             Squares.Add(Spot);
         }
+
         return Squares;
     }
 
@@ -370,18 +522,33 @@ public class UseFuntion
             SavedSpotsB = BoomPositionChecking();
         }
         BoomPatternTimer -= Time.deltaTime;
+
         if (WarningMarkB == null)
         {
-
             WarningMarkB = BoomPatternWarningMark(SavedSpotsB);
+
+            if (fuseSoundPlayed == false)
+            {
+                PlaySound(FuseSound);
+                fuseSoundPlayed = true;
+            }
         }
-        
+
+        if (BoomPatternTimer < BoomSoundAdvance && boomSoundPlayed == false)
+        {
+            PlaySound(BoomSound);
+            boomSoundPlayed = true;
+        }
+
         if (BoomPatternTimer < 0)
         {
             foreach (GameObject Obj in WarningMarkB)
             {
                 Object.Destroy(Obj);
             }
+
+           
+
             List<GameObject> BoomObject = new List<GameObject>();
 
             for (int i = 0; i < 2; i++)
@@ -407,7 +574,9 @@ public class UseFuntion
             BoomPatternTimer = 2f;
             WarningMarkB = null;
             SavedSpotsB = null;
-            
+            fuseSoundPlayed = false;
+            boomSoundPlayed = false;
+
         }
     }
 
@@ -447,14 +616,34 @@ public class UseFuntion
         return Warning;
     }
 
-   
+    public AudioSource audioSource;
 
-    
+    public AudioClip BoomSound;
+    public AudioClip FuseSound;
+    public AudioClip FallingRockSound;
+    public AudioClip PickaxeSwingSound;
+
+    bool fuseSoundPlayed = false;
+    bool boomSoundPlayed = false;
+    bool fallingRockSoundPlayed = false;
+    bool pickaxeSwingSoundPlayed = false;
+
+    void PlaySound(AudioClip clip)
+    {
+        if (audioSource == null || clip == null)
+        {
+            return;
+        }
+
+        audioSource.PlayOneShot(clip);
+    }
+
+
 }
 public class BossPatternManager
 {
     public UseFuntion UseFuntion;
-    float timer = 0.7f;
+    float timer = 0.1f;
 
     public void PatternStart()
     {
@@ -462,25 +651,31 @@ public class BossPatternManager
 
         if (timer <= 0)
         {
-            int randomPattern = Random.Range(0, 3);
+            int patternCount = Random.Range(1, 4);
 
-            switch (randomPattern)
+            for (int i = 0; i < patternCount; i++)
             {
-                case 0:
-                    UseFuntion.FallingRocksPatternTrigger = true;
-                    break;
+                int randomPattern = Random.Range(0, 3);
 
-                case 1:
-                    UseFuntion.Pickaxe = true;
-                    UseFuntion.PickaxeCreateTriger = true;
-                    break;
+                switch (randomPattern)
+                {
+                    case 0:
+                        Debug.Log("낙석 패턴 선택됨");
+                        UseFuntion.FallingRocksPatternTrigger = true;
+                        break;
 
-                case 2:
-                    UseFuntion.BoomPatternTrigger = true;
-                    break;
+                    case 1:
+                        UseFuntion.Pickaxe = true;
+                        UseFuntion.PickaxeCreateTriger = true;
+                        break;
+
+                    case 2:
+                        UseFuntion.BoomPatternTrigger = true;
+                        break;
+                }
             }
 
-            timer = 3f;
+            timer = 2f;
         }
     }
 }

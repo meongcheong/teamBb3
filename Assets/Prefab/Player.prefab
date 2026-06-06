@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 8116939390588204345}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0686, y: -1.0998, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.23384102, y: 0.244858, z: 0.23}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -148,9 +148,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 100
   currentHP: 0
-  attackPower: 1
+  attackPower: 10000
   invincibleTime: 0.44
   hpSlider: {fileID: 0}
+  gameOverCanvas: {fileID: 0}
 --- !u!61 &5807416999187981861
 BoxCollider2D:
   m_ObjectHideFlags: 0

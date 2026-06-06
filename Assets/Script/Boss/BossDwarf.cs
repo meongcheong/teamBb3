@@ -77,7 +77,7 @@ public class BossDwarf : MonoBehaviour
             if (pickaxeMotionPlayed == false)
             {
                 pickaxeMotionPlayed = true;
-                Invoke("PickaxeMotion", 2.0f);
+                Invoke("PickaxeMotion", 1.0f);
             }
         }
         else
@@ -314,12 +314,12 @@ public class UseFuntion
         {
             SavedSpotsPickaxe = SavedSpotsP.transform.position;
             GameObject Pickaxe_Warning = PickaxePatternWarningMark(SavedSpotsPickaxe);
-            Object.Destroy(Pickaxe_Warning, 2f);
+            Object.Destroy(Pickaxe_Warning, 1f);
 
 
         }
         PickaxeCreateTriger = false;
-        if (PickaxePatternDamageTimer > 2f)
+        if (PickaxePatternDamageTimer > 1f)
         {
             
             PickaxeObject = Object.Instantiate(PickaxeAnimation);
@@ -454,7 +454,7 @@ public class UseFuntion
 public class BossPatternManager
 {
     public UseFuntion UseFuntion;
-    float timer = 3f;
+    float timer = 0.7f;
 
     public void PatternStart()
     {

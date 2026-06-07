@@ -14,7 +14,6 @@ public class Player_Move : MonoBehaviour
     public Image dashUiImage;
     public Image skillUiImage;
 
-    public Sprite imgUp;    // 뒷모습
     public Sprite imgDown;  // 앞모습
     public Sprite imgRight; // 옆모습
 
@@ -23,10 +22,6 @@ public class Player_Move : MonoBehaviour
     float moveY;
 
     public Vector3 inputVec;
-
-    // 마지막으로 누른 방향이 어디였는지 글자로 기억
-    // 처음에 가만히 있을 때는 앞모습이 디폴트니까 기본값은 Down
-    string lastVerticalState = "Down";
 
     Player_Attack combat;
     SpriteRenderer spriter;
@@ -89,10 +84,6 @@ public class Player_Move : MonoBehaviour
         if (Input.GetKey(KeyCode.S)) moveY = -1;
         if (Input.GetKey(KeyCode.A)) moveX = -1;
         if (Input.GetKey(KeyCode.D)) moveX = 1;
-
-        // 마지막으로 누른 방향을 글자로 저장
-        if (Input.GetKeyDown(KeyCode.W)) lastVerticalState = "Up";
-        if (Input.GetKeyDown(KeyCode.S)) lastVerticalState = "Down";
 
         // inputVec에 입력값을 넣어 공유
         inputVec = new Vector3(moveX, moveY, 0).normalized;

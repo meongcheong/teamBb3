@@ -6,8 +6,7 @@ public class SquirrelSpawner : MonoBehaviour
 
     void Start()
     {
-        // 3초마다 생성 시작 !!!!!!!!!!!!!!!!! 테스트 끝나면 15초로 바꾸기 꼮!!!!
-        InvokeRepeating("SpawnSquirrel", 3f, 3f);
+        InvokeRepeating("SpawnSquirrel", 15f, 15f);
     }
 
     void SpawnSquirrel()

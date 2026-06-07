@@ -273,7 +273,7 @@ public class UseFuntion
     public GameObject FallingRock;
     public GameObject PickaxeAnimation;
     public GameObject BoomAnimation;
-    bool HitCheck = false;
+    
     public GameObject FallingRockWarning;
     public GameObject PickaxeWarning;
     public GameObject BoomWarning;
@@ -286,7 +286,7 @@ public class UseFuntion
     public float PatternMinDistance = 2.5f;
 
     /*======³«¼®ÆÐÅÏ===========================================================================================*/
-    RockInputCheck FallingRockInputCheck = new RockInputCheck();
+    
 
     public float FallingRocksPatternTimer = 1;
     
@@ -403,7 +403,7 @@ public class UseFuntion
             
             WarningMarkF = null;
             SavedSpotsF = null;
-            HitCheck = false;
+            
             fallingRockSoundPlayed = false;
         }
     }
@@ -459,7 +459,7 @@ public class UseFuntion
     
 
     /*=====Æø¹ß ÆÐÅÏ===================================================================================================*/
-    BoomInputCheck BoomInputCheck = new BoomInputCheck();
+    
     public float BoomPatternTimer = 2;
     public float BoomPatternBoundary = 6.0f;
     List<GameObject> BoomObject;

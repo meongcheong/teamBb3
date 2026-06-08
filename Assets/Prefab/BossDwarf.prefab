@@ -103,10 +103,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 20
+  maxHp: 0
+  bossHpSlider: {fileID: 0}
   player: {fileID: 2640342833459280128, guid: 98dec73d89352c442bdb38ecfa94b987, type: 3}
   status: {fileID: 6930180031608738463, guid: 98dec73d89352c442bdb38ecfa94b987, type: 3}
   PickaxeAnimation: {fileID: 6359500295242016358, guid: 3aed75c9e0450a8438b8edbbdae5acea, type: 3}
-  FallingRock: {fileID: 5979165727120289434, guid: 19b59aaa163ae6b458807fccab307803, type: 3}
+  FallingRock: {fileID: 2459943519104571305, guid: 120af4f0ea55cef4f8786830f60a95fa, type: 3}
   BoomAnimation: {fileID: 7978788882222391651, guid: 51e205486dc22004da82685357b3592a, type: 3}
   FallingRockWarning: {fileID: 5979165727120289434, guid: 6461f68df5b56d54b9829483a2223447, type: 3}
   PickaxeWarning: {fileID: 17124036994183068, guid: cbe4d52831bd2ce4087ddcd0a91f37c4, type: 3}
@@ -124,7 +126,8 @@ MonoBehaviour:
   audioSource: {fileID: 4705697003232904786}
   BoomSoundAdvance: 0.9
   PickaxeSoundAdvance: 0.9
-  FallingRockSoundAdvance: 0.4
+  FallingRockSoundAdvance: 0.44
+  FallingRockObject: {fileID: 6095658551022038580, guid: d447a840555614b4a81efbc2c648fc38, type: 3}
   isPoisoned: 0
 --- !u!61 &3591696335027843593
 BoxCollider2D:

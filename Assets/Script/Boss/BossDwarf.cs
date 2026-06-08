@@ -51,7 +51,9 @@ public class BossDwarf : MonoBehaviour
     public float PickaxeSoundAdvance = 0f;
     public float FallingRockSoundAdvance = 0f;
 
-    
+    public GameObject FallingRockObject;
+
+
     public bool isPoisoned = false; // 독사과를 맞았는지 기억하는 변수 (채연 추가)
 
     void Start()
@@ -63,7 +65,8 @@ public class BossDwarf : MonoBehaviour
 
         UseFuntion.player = player;
         UseFuntion.status = status;
-        UseFuntion.FallingRock = FallingRock;
+        UseFuntion.FallingRockObject = FallingRockObject;
+        UseFuntion.FallingRockImpactEffect = FallingRock;
         UseFuntion.PickaxeAnimation = PickaxeAnimation;
         UseFuntion.BoomAnimation = BoomAnimation;
         
@@ -283,7 +286,7 @@ public class UseFuntion
 {
     public Player_Status status;
     public Transform player;
-    public GameObject FallingRock;
+    public GameObject FallingRockImpactEffect;
     public GameObject PickaxeAnimation;
     public GameObject BoomAnimation;
     
@@ -299,7 +302,7 @@ public class UseFuntion
     public float PatternMinDistance = 2.5f;
 
     /*======낙석패턴===========================================================================================*/
-    
+    public GameObject FallingRockObject;
 
     public float FallingRocksPatternTimer = 1;
     
@@ -323,9 +326,9 @@ public class UseFuntion
             {
                 if (i == 0)
                 {
-                    Debug.Log("player.position: " + player.position);
+                    
                     Spot = player.position;
-                    Debug.Log("Saved Spot: " + Spot);
+                    
                 }
                 else
                 {
@@ -376,6 +379,26 @@ public class UseFuntion
         {
 
             WarningMarkF = FallingRocksPatternWarningMark(SavedSpotsF);
+
+            for (int i = 0; i < 4; i++)
+            {
+                Vector2 targetPos = SavedSpotsF[i];
+
+                Vector2 startPos = targetPos;
+                startPos.y += 8f;
+
+                GameObject rock = Object.Instantiate(FallingRockObject);
+                rock.transform.position = startPos;
+
+                RockObject drop = rock.GetComponent<RockObject>();
+
+                if (drop != null)
+                {
+                    drop.TargetPos = targetPos;
+                    drop.FallingRockImpactEffect = FallingRockImpactEffect;
+                    drop.WarningMark = WarningMarkF[i];
+                }
+            }
         }
         if (FallingRocksPatternTimer < FallingRockSoundAdvance && fallingRockSoundPlayed == false)
         {
@@ -384,39 +407,12 @@ public class UseFuntion
         }
         if (FallingRocksPatternTimer < 0)
         {
-            
-            foreach (GameObject Obj in WarningMarkF)
-            {
-                Object.Destroy(Obj);
-            }
-            
-
-            List<GameObject> RockObject = new List<GameObject>();
-
-            for (int i = 0; i < 4; i++)
-            {
-                Debug.Log($"경고 생성 위치 {i}: {SavedSpotsF[i]}");
-                GameObject Rock = Object.Instantiate(FallingRock);       
-                Rock.transform.position = SavedSpotsF[i];
-                RockObject.Add(Rock);
-            }
-            if (RockObject != null)
-            {
-
-                foreach (GameObject Obj in RockObject)
-                {
-                    Object.Destroy(Obj,1.2f);
-                }
-
-            }
-
-            RockObject = null;
             FallingRocksPatternTrigger = false;
             FallingRocksPatternTimer = 2;
-            
+
             WarningMarkF = null;
             SavedSpotsF = null;
-            
+
             fallingRockSoundPlayed = false;
         }
     }
@@ -657,9 +653,21 @@ public class BossPatternManager
 {
     public UseFuntion UseFuntion;
     float timer = 0.1f;
-
+    public float StartDelay = 5f;
+    bool PatternStartReady = false;
     public void PatternStart()
     {
+        if (PatternStartReady == false)
+        {
+            StartDelay -= Time.deltaTime;
+
+            if (StartDelay <= 0)
+            {
+                PatternStartReady = true;
+            }
+
+            return;
+        }
         timer -= Time.deltaTime;
 
         if (timer <= 0)

@@ -81,15 +81,15 @@ SpriteRenderer:
   m_SortingLayerID: -333299131
   m_SortingLayer: 1
   m_SortingOrder: 2
-  m_Sprite: {fileID: -3120073688425264428, guid: 2ed931bcffea9794e996ba0d6e4d6707, type: 3}
+  m_Sprite: {fileID: -467307283419413426, guid: 2bcedb943d35d934baae9fc48b50b944, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 4.48, y: 8.11}
+  m_Size: {x: 4.4700003, y: 8.100977}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &7285818743925933713
@@ -129,9 +129,8 @@ MonoBehaviour:
   dashCooldown: 5
   dashUiImage: {fileID: 0}
   skillUiImage: {fileID: 0}
-  imgUp: {fileID: 0}
-  imgDown: {fileID: 0}
-  imgRight: {fileID: 0}
+  imgDown: {fileID: 3583257001652028932, guid: 2bcedb943d35d934baae9fc48b50b944, type: 3}
+  imgRight: {fileID: -467307283419413426, guid: 2bcedb943d35d934baae9fc48b50b944, type: 3}
   lastDir: {x: 0, y: 0, z: 0}
   inputVec: {x: 0, y: 0, z: 0}
 --- !u!114 &6930180031608738463
@@ -146,9 +145,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6b61634d9f2094478ace06fda018e0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 100
-  currentHP: 0
-  attackPower: 10000
+  maxHP: 10
+  currentHP: 10
+  attackPower: 1
   invincibleTime: 0.44
   hpSlider: {fileID: 0}
   gameOverCanvas: {fileID: 0}
@@ -186,17 +185,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -3.3}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.48, y: 8.11}
-    newSize: {x: 4.48, y: 8.11}
+    oldSize: {x: 4.4700003, y: 8.100977}
+    newSize: {x: 4.4700003, y: 8.100977}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.48, y: 8.11}
+  m_Size: {x: 4.48, y: 1.5}
   m_EdgeRadius: 0
 --- !u!50 &417768641527369897
 Rigidbody2D:

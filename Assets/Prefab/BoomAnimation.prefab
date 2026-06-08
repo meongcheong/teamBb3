@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   status: {fileID: 6930180031608738463, guid: 98dec73d89352c442bdb38ecfa94b987, type: 3}
-  BoomDamagePower: 10
+  BoomDamagePower: 2
 --- !u!61 &1897331521329825873
 BoxCollider2D:
   m_ObjectHideFlags: 0

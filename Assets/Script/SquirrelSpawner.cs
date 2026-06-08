@@ -6,7 +6,7 @@ public class SquirrelSpawner : MonoBehaviour
 
     void Start()
     {
-        InvokeRepeating("SpawnSquirrel", 15f, 15f);
+        InvokeRepeating("SpawnSquirrel", 15f, 15f); // 대기시간, 반복시간
     }
 
     void SpawnSquirrel()

@@ -1,84 +1,63 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class Quality : MonoBehaviour
 {
-    public TMP_Dropdown resolutionDropdown;
-    public Toggle windowedToggle;
+    [Header("UI Elements")]
+    // 인스펙터에 '전체화면', '창모드'를 직접 적어둔 바로 그 드롭다운입니다.
+    public TMP_Dropdown screenModeDropdown;
 
-    List<Resolution> resolutions = new List<Resolution>();
-
-    int selectedIndex;
-    bool selectedWindowed;
+    // 해상도는 모니터 기본 해상도나 원하는 고정 크기(예: 1920x1080)로 지정합니다.
+    private int width = 1920;
+    private int height = 1080;
 
     void Start()
     {
-        // 해상도 설정
-        resolutions.Clear();
-        resolutions.Add(new Resolution { width = 1920, height = 1080 });
-        resolutions.Add(new Resolution { width = 1280, height = 720 });
+        // 1. 초기화 중 의도치 않은 이벤트 발생 방지
+        screenModeDropdown.onValueChanged.RemoveAllListeners();
 
-        // 드롭다운 옵션
-        resolutionDropdown.ClearOptions();
-        List<string> options = new List<string>();
+        // ★ 중요: 인스펙터에 적어둔 "전체화면", "창모드" 글자를 지키기 위해
+        // ClearOptions()와 AddOptions() 코드를 완전히 제거했습니다.
 
-        for (int i = 0; i < resolutions.Count; i++)
-        {
-            options.Add(resolutions[i].width + " x " + resolutions[i].height);
-        }
+        // 2. 저장된 화면 모드 불러오기 (0: 전체화면, 1: 창모드)
+        // 기본값은 0(전체화면)으로 설정합니다.
+        int savedMode = PlayerPrefs.GetInt("ScreenModeIndex", 0);
 
-        resolutionDropdown.AddOptions(options);
+        // 안전장치: 인스펙터 옵션 개수를 벗어나지 않도록 제한
+        if (savedMode >= screenModeDropdown.options.Count || savedMode < 0)
+            savedMode = 0;
 
-        // 저장값 불러오기
-        int savedIndex = PlayerPrefs.GetInt("ResolutionIndex", 0);
-        bool isWindowed = PlayerPrefs.GetInt("Windowed", 1) == 1;
+        // 3. 불러온 저장값을 드롭다운 UI에 반영
+        screenModeDropdown.value = savedMode;
+        screenModeDropdown.RefreshShownValue();
 
-        selectedIndex = savedIndex;
-        selectedWindowed = isWindowed;
+        // 4. 게임 시작 시 실제 화면 모드 적용
+        ApplyScreenMode(savedMode);
 
-        // UI 반영
-        resolutionDropdown.value = savedIndex;
-        resolutionDropdown.RefreshShownValue();
-        windowedToggle.isOn = isWindowed;
-
-        // 시작 시 적용
-        ApplyResolution(selectedIndex, selectedWindowed);
-
-        // 이벤트 연결
-        resolutionDropdown.onValueChanged.AddListener(OnResolutionChanged);
-        windowedToggle.onValueChanged.AddListener(OnToggleChanged);
+        // 5. UI 세팅이 완전히 끝난 후 사용자의 조작 이벤트 연결
+        screenModeDropdown.onValueChanged.AddListener(OnScreenModeChanged);
     }
 
-    public void OnResolutionChanged(int index)
+    public void OnScreenModeChanged(int index)
     {
-        selectedIndex = index;
+        // 사용자가 드롭다운을 바꾸면 화면 모드를 적용하고 값을 저장합니다.
+        ApplyScreenMode(index);
 
-        ApplyResolution(selectedIndex, selectedWindowed);
-        PlayerPrefs.SetInt("ResolutionIndex", selectedIndex);
+        PlayerPrefs.SetInt("ScreenModeIndex", index);
+        PlayerPrefs.Save();
     }
 
-    public void OnToggleChanged(bool isWindowed)
+    void ApplyScreenMode(int index)
     {
-        selectedWindowed = isWindowed;
+        // 인스펙터 순서 기준 -> 0번째: 전체화면, 1번째: 창모드
+        FullScreenMode mode = (index == 0)
+            ? FullScreenMode.FullScreenWindow
+            : FullScreenMode.Windowed;
 
-        ApplyResolution(selectedIndex, selectedWindowed);
-        PlayerPrefs.SetInt("Windowed", selectedWindowed ? 1 : 0);
+        Screen.SetResolution(width, height, mode);
     }
 
-    void ApplyResolution(int index, bool isWindowed)
-    {
-        Resolution res = resolutions[index];
-
-        FullScreenMode mode = isWindowed
-            ? FullScreenMode.Windowed
-            : FullScreenMode.FullScreenWindow;
-
-        Screen.SetResolution(res.width, res.height, mode);
-    }
-
-    // 창모드 확인용 코드 확인후 지워야함!
+    // [테스트용] F1 누르면 창모드 800x600으로 강제 변경
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.F1))

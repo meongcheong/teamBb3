@@ -1,14 +1,17 @@
-using NUnit.Framework;
 using System.Collections.Generic;
+using NUnit.Framework;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.UI; // 채연 추가
 
 public class BossDwarf : MonoBehaviour
 {
     private UseFuntion UseFuntion = new UseFuntion();
     private BossPatternManager BossPatternManager = new BossPatternManager();
     public float hp = 30f;
+    public float maxHp; // 최대 체력 (채연 추가)
+    public Slider bossHpSlider; // 보스 체력바 (채연 추가)
     public Transform player;
     public Player_Status status;
     public GameObject PickaxeAnimation;
@@ -48,12 +51,16 @@ public class BossDwarf : MonoBehaviour
     public float PickaxeSoundAdvance = 0f;
     public float FallingRockSoundAdvance = 0f;
 
-    // 채연추가
-    [Header("상태 체크")] 
-    public bool isPoisoned = false; // 독사과를 맞았는지 기억하는 변수
+    
+    public bool isPoisoned = false; // 독사과를 맞았는지 기억하는 변수 (채연 추가)
 
     void Start()
     {
+        maxHp = hp; // 처음 시작할 때 최대 체력으로 저장 (채연 추가)
+        UpdateHpBar(); // 시작할 때 체력바 꽉 차게 초기화 (채연 추가)
+
+        IdleMotionObject = Instantiate(IdleMotion);
+
         UseFuntion.player = player;
         UseFuntion.status = status;
         UseFuntion.FallingRock = FallingRock;
@@ -65,7 +72,6 @@ public class BossDwarf : MonoBehaviour
         UseFuntion.BoomWarning = BoomWarning;
         BossPatternManager.UseFuntion = UseFuntion;
 
-        IdleMotionObject = Instantiate(IdleMotion);
 
         UseFuntion.audioSource = audioSource;
 
@@ -73,7 +79,6 @@ public class BossDwarf : MonoBehaviour
         UseFuntion.FuseSound = FuseSound;
         UseFuntion.FallingRockSound = FallingRockSound;
         UseFuntion.PickaxeSwingSound = PickaxeSwingSound;
-
 
 
         UseFuntion.BoomSoundAdvance = BoomSoundAdvance;
@@ -143,22 +148,6 @@ public class BossDwarf : MonoBehaviour
         IdleMotionObject = Instantiate(IdleMotion);
     }
 
-    public void TakeDamage(float damage)
-    {
-        if (isDead == true)
-        {
-            return;
-        }
-
-        hp -= damage;
-        Debug.Log("보스 피격! 남은 HP: " + hp);
-
-        if (hp <= 0)
-        {
-            StartDeath();
-        }
-    }
-
     void StartDeath()
     {
         isDead = true;
@@ -192,13 +181,36 @@ public class BossDwarf : MonoBehaviour
         Destroy(gameObject, 2f);
     }
 
-    // 채연추가
+    // 채연 추가
+    public void TakeDamage(float damage)
+    {
+        if (isDead == true) return;
+
+        hp -= damage;
+        Debug.Log("보스 피격! 남은 HP: " + hp);
+
+        UpdateHpBar(); // 피격당할 때마다 체력바 UI 갱신하기
+
+        if (hp <= 0)
+        {
+            StartDeath();
+        }
+    }
+    void UpdateHpBar()
+    {
+        if (bossHpSlider != null)
+        {
+                bossHpSlider.value = hp;      
+        }
+    } 
+  
     // 독사과 스크립트가 보스를 맞췄을 때 실행할 함수
     public void HitByPoisonApple()
     {
-        isPoisoned = true;
+        isPoisoned = true; 
+        isGroggy = true;
         Debug.Log("보스가 독사과에 맞아 평타 공격이 가능한 상태가 되었습니다!");
-        StartGroggy();
+       
         CleanUpCurrentPatterns();
 
         // 5초 뒤에 독사과 상태를 자동으로 해제 
@@ -209,6 +221,7 @@ public class BossDwarf : MonoBehaviour
     void CurePoison()
     {
         isPoisoned = false;
+        isGroggy = false;
         Debug.Log("보스의 독사과 효과가 사라졌습니다.");
     }
 

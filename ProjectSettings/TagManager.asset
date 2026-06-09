@@ -7,6 +7,7 @@ TagManager:
   - player
   - Boss
   - Warning
+  - Audio
   layers:
   - Default
   - TransparentFX

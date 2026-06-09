@@ -3,11 +3,18 @@ using UnityEngine.SceneManagement;
 
 public class Option : MonoBehaviour
 {
+    AudioManager audioManager;
+
     public GameObject pauseUI;            // ESC 메뉴
     public GameObject settingUI;          // 설정 전체 패널
 
     public GameObject settingMainUI; // 설정 1
     public GameObject settingSubUI;  // 설정 2
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
 
     void Start()
     {
@@ -47,6 +54,7 @@ public class Option : MonoBehaviour
     {
         pauseUI.SetActive(false);
         settingUI.SetActive(false);
+        audioManager.PlaySFX(audioManager.UI);
         Time.timeScale = 1f;
         Debug.Log("RESUME");
     }
@@ -56,6 +64,7 @@ public class Option : MonoBehaviour
     {
         settingMainUI.SetActive(false);
         settingSubUI.SetActive(true);
+        audioManager.PlaySFX(audioManager.UI);
     }
 
     // 설정 2 → 1 (뒤로가기)
@@ -63,6 +72,7 @@ public class Option : MonoBehaviour
     {
         settingSubUI.SetActive(false);
         settingMainUI.SetActive(true);
+        audioManager.PlaySFX(audioManager.UI);
     }
 
     // 설정창 열기
@@ -71,6 +81,7 @@ public class Option : MonoBehaviour
         pauseUI.SetActive(false);
         settingUI.SetActive(true);
         Debug.Log("SETTING OPEN");
+        audioManager.PlaySFX(audioManager.UI);
     }
 
     // 설정창 닫기
@@ -79,6 +90,7 @@ public class Option : MonoBehaviour
         settingUI.SetActive(false);
         pauseUI.SetActive(true);
         Debug.Log("SETTING CLOSE");
+        audioManager.PlaySFX(audioManager.UI);
     }
 
     // 로비 이동
@@ -87,13 +99,16 @@ public class Option : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
         Debug.Log("LOBBY");
+        audioManager.PlaySFX(audioManager.UI);
     }
+
 
     // 게임 재시작
     public void RestartGame()
     {
         Debug.Log("RESTART GAME");
         SceneManager.LoadScene(0);
+        audioManager.PlaySFX(audioManager.UI);
     }
 
 }

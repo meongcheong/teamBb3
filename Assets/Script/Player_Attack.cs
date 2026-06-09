@@ -4,6 +4,7 @@ public class Player_Attack : MonoBehaviour
 {
     Player_Status status;
     Player_Move move;
+    AudioManager audioManager;
 
     public GameObject PoisonApplePrefab;
     public float PoisonAppleSpeed;
@@ -11,12 +12,17 @@ public class Player_Attack : MonoBehaviour
     public float skillCooldown = 15.0f;
     public float skillTimer = 0f;
 
-    // 평타 연속 공격을 막기 위한 쿨타임 (0.8초)
-    public float attackCooldown = 0.8f;
+    // 평타 연속 공격을 막기 위한 쿨타임 (0.56초)
+    public float attackCooldown = 0.56f;
     public float attackTimer = 0f;
 
     // 59x56 크기의 충돌 상자를 담을 변수
     public GameObject attackArea;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
 
     void Start()
     {
@@ -44,7 +50,7 @@ public class Player_Attack : MonoBehaviour
         if (attackTimer > 0) return;
 
         float damage = GetAttackPower();
-        
+        audioManager.PlaySFX(audioManager.Hit,0.1f);
 
         if (attackArea != null)
         {
@@ -70,6 +76,7 @@ public class Player_Attack : MonoBehaviour
             return;
         }
         Vector3 dir = move.lastDir;
+        audioManager.PlaySFX(audioManager.Poision);
 
         GameObject skill = Instantiate(PoisonApplePrefab, transform.position, Quaternion.identity);
         skill.GetComponent<PoisonApple>().SetDirection(dir);

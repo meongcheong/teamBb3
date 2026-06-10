@@ -8,6 +8,7 @@ TagManager:
   - Boss
   - Warning
   - Audio
+  - RockImpact
   layers:
   - Default
   - TransparentFX

@@ -18,7 +18,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip Squirrel;
     public AudioClip UI;
     public AudioClip Hit;
-    public AudioClip RED; // 테스트용으로 넣은거라 나중에 지워야함!!
+    public AudioClip Attack;
 
 
     private void Start()

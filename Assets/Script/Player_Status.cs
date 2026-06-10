@@ -93,6 +93,7 @@ public class Player_Status : MonoBehaviour
     IEnumerator Invincible()
     {
         isInvincible = true;
+        audioManager.PlaySFX(audioManager.Attack, 0.2f);
 
         if (spriteRenderer != null)
         {

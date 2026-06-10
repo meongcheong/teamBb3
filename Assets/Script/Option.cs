@@ -102,13 +102,28 @@ public class Option : MonoBehaviour
         audioManager.PlaySFX(audioManager.UI);
     }
 
-
     // 게임 재시작
     public void RestartGame()
     {
         Debug.Log("RESTART GAME");
         SceneManager.LoadScene(0);
         audioManager.PlaySFX(audioManager.UI);
+    }
+
+    //게임 시작
+    public void OnclickStart()
+    {
+        SceneManager.LoadScene("Game");
+        audioManager.PlaySFX(audioManager.background);
+    }
+
+    //게임 종료
+    public void OnclickQuit()
+    {
+        UnityEditor.EditorApplication.isPlaying = false;
+        audioManager.PlaySFX(audioManager.UI);
+
+        Application.Quit();
     }
 
 }

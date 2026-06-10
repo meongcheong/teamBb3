@@ -358,8 +358,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1884804010}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -0.15078735, y: 0}
   m_SizeDelta: {x: 36, y: -0.0000019072886}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2057,8 +2057,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1233409054}
-        m_TargetAssemblyTypeName: Mainmenu, Assembly-CSharp
+      - m_Target: {fileID: 1283988428}
+        m_TargetAssemblyTypeName: Option, Assembly-CSharp
         m_MethodName: OnclickStart
         m_Mode: 1
         m_Arguments:
@@ -2139,8 +2139,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2062935760}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -1.2355042, y: 0}
   m_SizeDelta: {x: 36.3309, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2891,7 +2891,7 @@ RectTransform:
   m_Father: {fileID: 1894133210}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3335,7 +3335,6 @@ GameObject:
   - component: {fileID: 1233409057}
   - component: {fileID: 1233409056}
   - component: {fileID: 1233409055}
-  - component: {fileID: 1233409054}
   m_Layer: 5
   m_Name: MainMenu UI
   m_TagString: Untagged
@@ -3343,18 +3342,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1233409054
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1233409053}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4d3a91905284004a9dbf0118d66a2a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1233409055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4140,7 +4127,7 @@ MonoBehaviour:
   musicSource: {fileID: 2115043770}
   SFXSource: {fileID: 644189708}
   sfxGroup: {fileID: 2976477672398638210, guid: 506a908ae437e6a44ad6e7fe57cc7223, type: 2}
-  background: {fileID: 8300000, guid: 9c8c33ea062d6c9429c861cb3ee3d608, type: 3}
+  background: {fileID: 8300000, guid: 2af0f7f971a55214fae003e386ddcac9, type: 3}
   Dead: {fileID: 8300000, guid: 2ea60d1ef62a28446b52f68b57102698, type: 3}
   Dash: {fileID: 8300000, guid: 55c891894948a3a4f9867f76cccfb151, type: 3}
   Golden: {fileID: 8300000, guid: 932cc3ffc891d12488c3c5d970106442, type: 3}
@@ -4198,8 +4185,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1680672414}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -2.0112, y: 0}
   m_SizeDelta: {x: 36, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4788,7 +4775,7 @@ RectTransform:
   m_Father: {fileID: 655283673}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5331,8 +5318,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1233409054}
-        m_TargetAssemblyTypeName: Mainmenu, Assembly-CSharp
+      - m_Target: {fileID: 1283988428}
+        m_TargetAssemblyTypeName: Option, Assembly-CSharp
         m_MethodName: OnclickQuit
         m_Mode: 1
         m_Arguments:
@@ -5551,7 +5538,7 @@ RectTransform:
   m_Father: {fileID: 1592112881}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5827,7 +5814,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1915607775
 MonoBehaviour:
   m_ObjectHideFlags: 0

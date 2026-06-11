@@ -8,6 +8,7 @@ using UnityEngine.UI; // 채연 추가
 
 public class BossDwarf : MonoBehaviour
 {
+    public CutScenesManager cutScenesManager;
     private UseFuntion UseFuntion = new UseFuntion();
     private BossPatternManager BossPatternManager = new BossPatternManager();
     public float hp = 30f;
@@ -184,7 +185,17 @@ public class BossDwarf : MonoBehaviour
             audioSource.PlayOneShot(DeathSound);
         }
 
-        Destroy(gameObject, 2f);
+        Invoke(nameof(StartEndingCutScene), 2f);
+    }
+
+    void StartEndingCutScene()
+    {
+        if (cutScenesManager != null)
+        {
+            cutScenesManager.PlayEndingCutScene();
+        }
+
+        Destroy(gameObject);
     }
 
     // 채연 추가

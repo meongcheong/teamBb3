@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8957884460337900721
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6318816027559888305}
+  - component: {fileID: 2993135433146890869}
+  m_Layer: 0
+  m_Name: CutScenesManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6318816027559888305
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8957884460337900721}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.6683583, y: 0.8555896, z: -0.10518253}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2993135433146890869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8957884460337900721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 099337905b5e5a64d9eb9779908fb91e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IntroCutScenePrefabs:
+  - {fileID: 4399010063762723213, guid: ef46b059101a7094ba44617fd124c2f6, type: 3}
+  - {fileID: 5679389685527459194, guid: 3b4fd9cdf3045ef47952b58e3055d33f, type: 3}
+  - {fileID: 5867742122095423929, guid: 5dbd481693cce654db0a7523d37e3cdc, type: 3}
+  - {fileID: 410583526508008850, guid: b0e18368c9ffdec46951d06bf8c24be8, type: 3}
+  EndingCutScenePrefabs:
+  - {fileID: 8678931160242001994, guid: 3d1408677ca0d7c43996ea216f78c340, type: 3}
+  - {fileID: 8867764916043194592, guid: cc248ae829d8ce8438047fd1f7f9b5ce, type: 3}
+  - {fileID: 3316992996886470131, guid: cd8d6e5efdb59af4db6ebbbc6d243e0c, type: 3}
+  - {fileID: 6600459118544513002, guid: 197cbf6650e79d0438f162909dcda78e, type: 3}
+  - {fileID: 9161744878961697007, guid: 79048fde7fdc8444698e35ec8e9a49df, type: 3}
+  CutSceneInterval: 6
+  BossDwarfObject: {fileID: 0}
+  PlayerObject: {fileID: 0}

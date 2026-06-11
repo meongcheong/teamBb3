@@ -1986,6 +1986,7 @@ GameObject:
   - component: {fileID: 725639151}
   - component: {fileID: 725639150}
   - component: {fileID: 725639149}
+  - component: {fileID: 725639152}
   m_Layer: 5
   m_Name: start
   m_TagString: Untagged
@@ -2107,6 +2108,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 725639147}
   m_CullTransparentMesh: 1
+--- !u!114 &725639152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 725639147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af8017d44e7ed264eb8ec8c2603f464f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &730094684
 GameObject:
   m_ObjectHideFlags: 0
@@ -4135,7 +4148,7 @@ MonoBehaviour:
   Squirrel: {fileID: 8300000, guid: 70bbffa4c6892c64682b4381f2d2031a, type: 3}
   UI: {fileID: 8300000, guid: d040cc35bddcda148aa1d37107dbc685, type: 3}
   Hit: {fileID: 8300000, guid: f22aa1cae1bb60b4099d21c73c8d6531, type: 3}
-  RED: {fileID: 8300000, guid: 2af28e9bd5d2af64aa67c83f0950d147, type: 3}
+  Attack: {fileID: 0}
 --- !u!4 &1529510346
 Transform:
   m_ObjectHideFlags: 0

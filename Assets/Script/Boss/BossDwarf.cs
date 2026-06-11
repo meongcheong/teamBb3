@@ -294,7 +294,7 @@ public class UseFuntion
     public GameObject PickaxeWarning;
     public GameObject BoomWarning;
     public GameObject PickaxeMotionAnimation;
-
+    GameObject rock;
     public float BoomSoundAdvance = 0f;
     public float FallingRockSoundAdvance = 0f;
     public float PickaxeSwingSoundAdvance = 0f;
@@ -308,7 +308,8 @@ public class UseFuntion
     
     public float FallingRocksPatternBoundary = 5.0f;
     List<GameObject> WarningMarkF;
-    
+    float FallingRockSoundTimer = 0f;
+    public float FallingRockSoundDelay = 0.73f;
     public bool FallingRocksPatternTrigger = false;
     float MaxY = -1.0f;
     float MinY = -5.0f;
@@ -387,10 +388,10 @@ public class UseFuntion
                 Vector2 startPos = targetPos;
                 startPos.y += 8f;
 
-                GameObject rock = Object.Instantiate(FallingRockObject);
+                rock = Object.Instantiate(FallingRockObject);
                 rock.transform.position = startPos;
-
                 RockObject drop = rock.GetComponent<RockObject>();
+
 
                 if (drop != null)
                 {
@@ -400,10 +401,16 @@ public class UseFuntion
                 }
             }
         }
-        if (FallingRocksPatternTimer < FallingRockSoundAdvance && fallingRockSoundPlayed == false)
+        if (rock != null && fallingRockSoundPlayed == false)
         {
-            PlaySound(FallingRockSound);
-            fallingRockSoundPlayed = true;
+            FallingRockSoundTimer += Time.deltaTime;
+
+            if (FallingRockSoundTimer > FallingRockSoundDelay)
+            {
+                PlaySound(FallingRockSound);
+                fallingRockSoundPlayed = true;
+                FallingRockSoundTimer = 0;
+            }
         }
         if (FallingRocksPatternTimer < 0)
         {

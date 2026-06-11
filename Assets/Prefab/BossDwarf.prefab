@@ -126,7 +126,7 @@ MonoBehaviour:
   audioSource: {fileID: 4705697003232904786}
   BoomSoundAdvance: 0.9
   PickaxeSoundAdvance: 0.9
-  FallingRockSoundAdvance: 0.44
+  FallingRockSoundAdvance: 0.1
   FallingRockObject: {fileID: 6095658551022038580, guid: d447a840555614b4a81efbc2c648fc38, type: 3}
   isPoisoned: 0
 --- !u!61 &3591696335027843593

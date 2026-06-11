@@ -16,6 +16,12 @@ public class Player_Status : MonoBehaviour
 
     private Animator anim;
     private SpriteRenderer spriteRenderer;
+    AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
 
     void Start()
     {
@@ -75,10 +81,11 @@ public class Player_Status : MonoBehaviour
         if (currentHP <= 0)
         {
             Debug.Log("플레이어 사망!");
+            audioManager.PlaySFX(audioManager.Dead);
+
             Die();
             return;
         }
-
         StartCoroutine(Invincible());
     }
 
@@ -86,6 +93,7 @@ public class Player_Status : MonoBehaviour
     IEnumerator Invincible()
     {
         isInvincible = true;
+        audioManager.PlaySFX(audioManager.Attack, 0.2f);
 
         if (spriteRenderer != null)
         {

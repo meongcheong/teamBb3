@@ -1,9 +1,12 @@
+using NUnit.Framework.Internal;
 using UnityEngine;
+using UnityEngine.Timeline;
 
 public class Player_Attack : MonoBehaviour
 {
     Player_Status status;
     Player_Move move;
+    AudioManager audioManager;
 
     public GameObject PoisonApplePrefab;
     public float PoisonAppleSpeed;
@@ -11,12 +14,24 @@ public class Player_Attack : MonoBehaviour
     public float skillCooldown = 15.0f;
     public float skillTimer = 0f;
 
-    // 평타 연속 공격을 막기 위한 쿨타임 (0.8초)
-    public float attackCooldown = 0.8f;
+    // 평타 연속 공격을 막기 위한 쿨타임 (0.56초)
+    public float attackCooldown = 0.56f;
     public float attackTimer = 0f;
 
     // 59x56 크기의 충돌 상자를 담을 변수
     public GameObject attackArea;
+
+    // 캐릭터 중심에서 공격 상자가 얼마나 떨어져 있을지 설정 (거리)
+    public float attackOffset = 1.0f;
+
+    [Header("Effect Settings")]
+    [SerializeField] private GameObject hitEffectPrefab; // 평타 타격 이펙트 프리팹
+    [SerializeField] private float effectDestroyTime = 5.0f; // 이펙트가 화면에서 사라질 시간
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
 
     void Start()
     {
@@ -40,19 +55,55 @@ public class Player_Attack : MonoBehaviour
     // 평타
     public void Attack()
     {
+        Debug.Log("공격 실행");
+
         // 평타 쿨타임 중이면 공격 불가!
         if (attackTimer > 0) return;
 
         float damage = GetAttackPower();
-        
+        audioManager.PlaySFX(audioManager.Hit, 0.1f);
 
-        if (attackArea != null)
+        if (attackArea != null && move != null)
         {
+
+            // 플레이어 방향으로 공격 범위 이동
+            Vector3 targetPosition =
+                transform.position +
+                (move.lastDir.normalized * attackOffset);
+
+            attackArea.transform.position = targetPosition;
+
+            // 공격 범위 회전
+            float angle =
+                Mathf.Atan2(move.lastDir.y, move.lastDir.x)
+                * Mathf.Rad2Deg;
+
+            attackArea.transform.rotation =
+                Quaternion.Euler(0, 0, angle);
+
             attackArea.SetActive(true);
-            Invoke("DisableAttackArea", 0.7f);
+
+            CancelInvoke("DisableAttackArea");
+            Invoke("DisableAttackArea", 0.3f);
         }
 
-        // 공격했으니 평타 타이머 작동
+        // 이펙트 생성
+        if (hitEffectPrefab != null && attackArea != null)
+        {
+            float angle =
+                Mathf.Atan2(move.lastDir.y, move.lastDir.x)
+                * Mathf.Rad2Deg;
+
+            GameObject effect = Instantiate(
+                hitEffectPrefab,
+                attackArea.transform.position,
+                Quaternion.Euler(0, 0, angle)
+            );
+            effect.transform.SetParent(this.transform, true);
+            Destroy(effect, effectDestroyTime);
+        }
+
+        // 공격 쿨타임 시작
         attackTimer = attackCooldown;
     }
 
@@ -70,6 +121,7 @@ public class Player_Attack : MonoBehaviour
             return;
         }
         Vector3 dir = move.lastDir;
+        audioManager.PlaySFX(audioManager.Poision);
 
         GameObject skill = Instantiate(PoisonApplePrefab, transform.position, Quaternion.identity);
         skill.GetComponent<PoisonApple>().SetDirection(dir);
@@ -77,6 +129,7 @@ public class Player_Attack : MonoBehaviour
         skillTimer = skillCooldown;
         Debug.Log("독사과 사용!");
     }
+
 
     public float GetAttackPower()
     {

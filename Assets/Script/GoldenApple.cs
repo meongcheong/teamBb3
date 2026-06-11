@@ -2,6 +2,13 @@ using UnityEngine;
 
 public class GoldenApple : MonoBehaviour
 {
+    AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     void Start()
     {
         // !!!!!!!!!!!!!!!!!!테스트 다 하고 난 뒤에 >>> 10초 뒤 삭제로 변경해야됨
@@ -18,6 +25,7 @@ public class GoldenApple : MonoBehaviour
 
             if (status != null)
             {
+                audioManager.PlaySFX(audioManager.Golden);
                 // 체력을 1만큼 회복시킴
                 status.AddHealth(1f);
             }

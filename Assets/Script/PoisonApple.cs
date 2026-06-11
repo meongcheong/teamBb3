@@ -4,7 +4,7 @@ public class PoisonApple : MonoBehaviour
 {
     Vector2 direction;
 
-    public float speed = 3f;
+    public float speed = 2f;
     public float lifeTime = 3f;
 
     Rigidbody2D rigid;
@@ -41,6 +41,7 @@ public class PoisonApple : MonoBehaviour
             hasHit = true; // 한 번만 맞게 제한
 
             BossDwarf boss = col.GetComponent<BossDwarf>();
+            
 
             if (boss != null)
             {

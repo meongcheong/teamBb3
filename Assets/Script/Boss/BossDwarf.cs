@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Unity.VisualScripting;
@@ -11,6 +12,7 @@ public class BossDwarf : MonoBehaviour
     private BossPatternManager BossPatternManager = new BossPatternManager();
     public float hp = 30f;
     public float maxHp; // 최대 체력 (채연 추가)
+    private SpriteRenderer spriteRenderer; // 보라색 깜빡임 연출 위해서 추가 (채연)
     public Slider bossHpSlider; // 보스 체력바 (채연 추가)
     public Transform player;
     public Player_Status status;
@@ -60,6 +62,7 @@ public class BossDwarf : MonoBehaviour
     {
         maxHp = hp; // 처음 시작할 때 최대 체력으로 저장 (채연 추가)
         UpdateHpBar(); // 시작할 때 체력바 꽉 차게 초기화 (채연 추가)
+        spriteRenderer = GetComponent<SpriteRenderer>(); // 보라색 (채연 추가)
 
         IdleMotionObject = Instantiate(IdleMotion);
 
@@ -213,11 +216,46 @@ public class BossDwarf : MonoBehaviour
         isPoisoned = true; 
         isGroggy = true;
         Debug.Log("보스가 독사과에 맞아 평타 공격이 가능한 상태가 되었습니다!");
-       
+
+        StartCoroutine(PoisonBlink());
+
         CleanUpCurrentPatterns();
 
         // 5초 뒤에 독사과 상태를 자동으로 해제 
         Invoke("CurePoison", 5f);
+    }
+
+    // 독사과 피격당할 시 보라색 깜빡임 연출
+    IEnumerator PoisonBlink()
+    {
+        float timer = 0f;
+
+        while (timer < 5f)
+        {
+            if (IdleMotionObject != null)
+            {
+                SpriteRenderer sr =
+                    IdleMotionObject.GetComponent<SpriteRenderer>();
+
+                if (sr != null)
+                    sr.color = new Color(0.6f, 0f, 1f, 1f);
+            }
+
+            yield return new WaitForSeconds(0.15f);
+
+            if (IdleMotionObject != null)
+            {
+                SpriteRenderer sr =
+                    IdleMotionObject.GetComponent<SpriteRenderer>();
+
+                if (sr != null)
+                    sr.color = Color.white;
+            }
+
+            yield return new WaitForSeconds(0.15f);
+
+            timer += 0.3f;
+        }
     }
 
     // 독사과 상태를 다시 원래대로 되돌리는 함수
@@ -246,6 +284,14 @@ public class BossDwarf : MonoBehaviour
         foreach (GameObject w in warnings)
         {
             Destroy(w);
+        }
+
+        GameObject[] impacts =
+    GameObject.FindGameObjectsWithTag("RockImpact");
+
+        foreach (GameObject impact in impacts)
+        {
+            Destroy(impact);
         }
     } // 여기까지 채연 추가
 

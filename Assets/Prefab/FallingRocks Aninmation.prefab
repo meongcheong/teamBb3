@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 180114952173965721}
   - component: {fileID: 5932598973595898341}
   - component: {fileID: 5101263561527711347}
+  - component: {fileID: 576727663625919}
   m_Layer: 0
   m_Name: FallingRocks Aninmation
-  m_TagString: Untagged
+  m_TagString: RockImpact
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -172,3 +173,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status: {fileID: 0}
   FallingRocksDamagePower: 1
+--- !u!114 &576727663625919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2459943519104571305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d41e26189617a74db5754cb5d83cad2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifeTime: 1

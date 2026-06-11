@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Squirrel : MonoBehaviour
 {
+    AudioManager audioManager;
+
     public float speed = 8.5f;
     public GameObject goldenApplePrefab;
 
@@ -11,6 +13,11 @@ public class Squirrel : MonoBehaviour
 
     // 다람쥐 이미지를 뒤집기 위해 스프라이트 렌더러를 담을 주머니 추가
     private SpriteRenderer spriter;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
 
     void Start()
     {
@@ -24,6 +31,7 @@ public class Squirrel : MonoBehaviour
         {
             // 왼쪽에서 생성됨 -> 오른쪽으로 이동
             moveDirection = new Vector2(1, randomY);
+            audioManager.PlaySFX(audioManager.Squirrel);
 
             // 오른쪽으로 뛸 때의 이미지 방향 설정
             if (spriter != null)
@@ -35,6 +43,7 @@ public class Squirrel : MonoBehaviour
         {
             // 오른쪽에서 생성됨 -> 왼쪽으로 이동
             moveDirection = new Vector2(-1, randomY);
+            audioManager.PlaySFX(audioManager.Squirrel);
 
             // 왼쪽으로 뛸 때의 이미지 방향 설정
             if (spriter != null)

@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class Player_Move : MonoBehaviour
 {
+    AudioManager audioManager;
+
     public float speed = 3f; // 속도
     public float dashSpeed = 10f; // 대시 속도
     public float dashTime = 0.2f; // 대시 길이
@@ -13,9 +15,6 @@ public class Player_Move : MonoBehaviour
 
     public Image dashUiImage;
     public Image skillUiImage;
-
-    public Sprite imgDown;  // 앞모습
-    public Sprite imgRight; // 옆모습
 
     public Vector3 lastDir;
     float moveX;
@@ -27,11 +26,13 @@ public class Player_Move : MonoBehaviour
     SpriteRenderer spriter;
     Animator anim;
 
-    void Awake() // 초기화
+    private void Awake() // 초기화
     {
         combat = GetComponent<Player_Attack>();
         spriter = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
     void Update()
@@ -114,6 +115,8 @@ public class Player_Move : MonoBehaviour
             {
                 dir = lastDir;
             }
+
+            audioManager.PlaySFX(audioManager.Dash,0.3f);
 
             StartCoroutine(Dash(dir));
             dashTimer = dashCooldown;

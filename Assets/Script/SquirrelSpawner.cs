@@ -6,12 +6,12 @@ public class SquirrelSpawner : MonoBehaviour
 
     void Start()
     {
-        InvokeRepeating("SpawnSquirrel", 15f, 15f); // 대기시간, 반복시간
+        InvokeRepeating("SpawnSquirrel", 30f, 15f); // 대기시간, 반복시간
     }
 
     void SpawnSquirrel()
     {
-        float randomY = Random.Range(-3.91f, 0.21f);
+        float randomY = Random.Range(-4.01f, -0.4f);
         Vector2 spawnPos;
 
         // 생성 위치 결정

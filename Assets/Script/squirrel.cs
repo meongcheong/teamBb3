@@ -4,7 +4,7 @@ public class Squirrel : MonoBehaviour
 {
     AudioManager audioManager;
 
-    public float speed = 8.5f;
+    public float speed = 8f;
     public GameObject goldenApplePrefab;
 
     private Vector2 moveDirection;
@@ -30,7 +30,7 @@ public class Squirrel : MonoBehaviour
         if (transform.position.x < 0)
         {
             // 왼쪽에서 생성됨 -> 오른쪽으로 이동
-            moveDirection = new Vector2(1, randomY);
+            moveDirection = Vector2.right;
             audioManager.PlaySFX(audioManager.Squirrel);
 
             // 오른쪽으로 뛸 때의 이미지 방향 설정
@@ -42,7 +42,7 @@ public class Squirrel : MonoBehaviour
         else
         {
             // 오른쪽에서 생성됨 -> 왼쪽으로 이동
-            moveDirection = new Vector2(-1, randomY);
+            moveDirection = Vector2.left;
             audioManager.PlaySFX(audioManager.Squirrel);
 
             // 왼쪽으로 뛸 때의 이미지 방향 설정
@@ -56,7 +56,7 @@ public class Squirrel : MonoBehaviour
         moveDirection = moveDirection.normalized;
 
         // 몇 초 뒤에 사과 떨어뜨릴지 예약
-        float randomDelay = Random.Range(0.6f, 1.85f);
+        float randomDelay = Random.Range(0.3f, 1.3f);
         Invoke("DropApple", randomDelay);
     }
 
@@ -64,13 +64,6 @@ public class Squirrel : MonoBehaviour
     {
         // 이동: 현재 위치 = 현재 위치 + (방향 * 속도 * 시간)
         transform.position += (Vector3)moveDirection * speed * Time.deltaTime;
-
-        // Y축 이동 범위 제한 (화면 밖으로 나가지 않게)
-        float currentY = transform.position.y;
-        currentY = Mathf.Clamp(currentY, -4.01f, 0.21f);
-
-        // 제한된 Y값을 다시 적용
-        transform.position = new Vector3(transform.position.x, currentY, 0);
 
         // 화면 왼쪽이나 오른쪽으로 완전히 나가면 삭제
         if (transform.position.x < -12f || transform.position.x > 12f)

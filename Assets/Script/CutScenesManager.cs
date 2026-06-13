@@ -1,38 +1,42 @@
-using UnityEngine;
+    using UnityEngine;
+    using UnityEngine.SceneManagement;
 
-public class CutScenesManager : MonoBehaviour
-{
-    public GameObject[] IntroCutScenePrefabs;
-    public GameObject[] EndingCutScenePrefabs;
-
-    public float CutSceneInterval = 6f;
-
-    public GameObject BossDwarfObject;
-    public GameObject PlayerObject;
-
-    int currentIndex = 0;
-    GameObject currentCutSceneObject;
-    GameObject[] currentCutScenePrefabs;
-
-    bool isPlaying = false;
-    bool isIntroCutScene = false;
-    bool isEndingCutScene = false;
-
-    void Start()
+    public class CutScenesManager : MonoBehaviour
     {
-        PlayIntroCutScene();
-    }
+        public AudioManager audioManager;
+        public GameObject[] IntroCutScenePrefabs;
+        public GameObject[] EndingCutScenePrefabs;
+
+        public float CutSceneInterval = 6f;
+
+        public GameObject BossDwarfObject;
+        public GameObject PlayerObject;
+        public GameObject AudioManagerObject;
+
+        public AudioSource CutSceneBGMSource;
+
+        public string TitleSceneName = "TitleScene";
+
+        int currentIndex = 0;
+        GameObject currentCutSceneObject;
+        GameObject[] currentCutScenePrefabs;
+
+        bool isPlaying = false;
+        bool isIntroCutScene = false;
+        bool isEndingCutScene = false;
+
+        void Start()
+        {
+            PlayIntroCutScene();
+        }
 
     public void PlayIntroCutScene()
     {
-        if (BossDwarfObject != null)
-        {
-            BossDwarfObject.SetActive(false);
-        }
+        SetGameplayObjects(false);
 
-        if (PlayerObject != null)
+        if (audioManager != null)
         {
-            PlayerObject.SetActive(false);
+            audioManager.SetCutScenePlaying(true);
         }
 
         isIntroCutScene = true;
@@ -43,14 +47,11 @@ public class CutScenesManager : MonoBehaviour
 
     public void PlayEndingCutScene()
     {
-        if (BossDwarfObject != null)
-        {
-            BossDwarfObject.SetActive(false);
-        }
+        SetGameplayObjects(false);
 
-        if (PlayerObject != null)
+        if (audioManager != null)
         {
-            PlayerObject.SetActive(false);
+            audioManager.SetCutScenePlaying(true);
         }
 
         isIntroCutScene = false;
@@ -60,50 +61,48 @@ public class CutScenesManager : MonoBehaviour
     }
 
     void PlayCutScene(GameObject[] cutScenePrefabs)
-    {
-        if (isPlaying == true)
         {
-            return;
+            if (cutScenePrefabs == null || cutScenePrefabs.Length == 0)
+            {
+                EndCutScene();
+                return;
+            }
+
+            CancelInvoke(nameof(ShowCurrentCutScene));
+
+            isPlaying = true;
+            currentIndex = 0;
+            currentCutScenePrefabs = cutScenePrefabs;
+
+            PlayCutSceneBGM();
+            ShowCurrentCutScene();
         }
 
-        if (cutScenePrefabs == null || cutScenePrefabs.Length == 0)
+        void ShowCurrentCutScene()
         {
-            EndCutScene();
-            return;
+            if (currentCutSceneObject != null)
+            {
+                Destroy(currentCutSceneObject);
+            }
+
+            if (currentIndex >= currentCutScenePrefabs.Length)
+            {
+                EndCutScene();
+                return;
+            }
+
+            currentCutSceneObject = Instantiate(currentCutScenePrefabs[currentIndex]);
+
+            currentIndex++;
+
+            Invoke(nameof(ShowCurrentCutScene), CutSceneInterval);
         }
-
-        CancelInvoke(nameof(ShowCurrentCutScene));
-
-        isPlaying = true;
-        currentIndex = 0;
-        currentCutScenePrefabs = cutScenePrefabs;
-
-        ShowCurrentCutScene();
-    }
-
-    void ShowCurrentCutScene()
-    {
-        if (currentCutSceneObject != null)
-        {
-            Destroy(currentCutSceneObject);
-        }
-
-        if (currentIndex >= currentCutScenePrefabs.Length)
-        {
-            EndCutScene();
-            return;
-        }
-
-        currentCutSceneObject = Instantiate(currentCutScenePrefabs[currentIndex]);
-
-        currentIndex++;
-
-        Invoke(nameof(ShowCurrentCutScene), CutSceneInterval);
-    }
 
     void EndCutScene()
     {
         CancelInvoke(nameof(ShowCurrentCutScene));
+
+        StopCutSceneBGM();
 
         if (currentCutSceneObject != null)
         {
@@ -115,25 +114,75 @@ public class CutScenesManager : MonoBehaviour
         currentIndex = 0;
         isPlaying = false;
 
-        if (isIntroCutScene == true)
+        if (isIntroCutScene)
+        {
+            SetGameplayObjects(true);
+
+            if (audioManager != null)
+            {
+                audioManager.SetCutScenePlaying(false);
+                audioManager.PlayBackgroundBGM();
+            }
+
+            isIntroCutScene = false;
+            isEndingCutScene = false;
+            return;
+        }
+
+        if (isEndingCutScene)
+        {
+            isIntroCutScene = false;
+            isEndingCutScene = false;
+
+            SceneManager.LoadScene(TitleSceneName);
+            return;
+        }
+    }
+
+    void SetGameplayObjects(bool active)
         {
             if (BossDwarfObject != null)
             {
-                BossDwarfObject.SetActive(true);
+                BossDwarfObject.SetActive(active);
             }
 
             if (PlayerObject != null)
             {
-                PlayerObject.SetActive(true);
+                PlayerObject.SetActive(active);
             }
         }
 
-        if (isEndingCutScene == true)
+        public void SetAudioManager(bool active)
         {
-            Debug.Log("¿£µù ÄÆ¾À Á¾·á");
+            if (audioManager == null)
+            {
+                return;
+            }
+
+            if (active == true)
+            {
+                audioManager.PlayBackgroundBGM();
+            }
+            else
+            {
+                audioManager.StopBackgroundBGM();
+            }
         }
 
-        isIntroCutScene = false;
-        isEndingCutScene = false;
+        void PlayCutSceneBGM()
+        {
+            if (CutSceneBGMSource != null)
+            {
+                CutSceneBGMSource.Stop();
+                CutSceneBGMSource.Play();
+            }
+        }
+
+        void StopCutSceneBGM()
+        {
+            if (CutSceneBGMSource != null)
+            {
+                CutSceneBGMSource.Stop();
+            }
+        }
     }
-}

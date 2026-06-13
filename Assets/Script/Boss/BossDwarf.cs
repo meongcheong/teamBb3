@@ -194,8 +194,10 @@ public class BossDwarf : MonoBehaviour
         {
             cutScenesManager.PlayEndingCutScene();
         }
-
-        Destroy(gameObject);
+        else
+        {
+            Debug.LogWarning("CutScenesManager가 연결되지 않았습니다.");
+        }
     }
 
     // 채연 추가
@@ -206,7 +208,7 @@ public class BossDwarf : MonoBehaviour
         hp -= damage;
         Debug.Log("보스 피격! 남은 HP: " + hp);
 
-        UpdateHpBar(); // 피격당할 때마다 체력바 UI 갱신하기
+        UpdateHpBar();
 
         if (hp <= 0)
         {

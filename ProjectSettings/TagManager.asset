@@ -46,20 +46,23 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: 1
+  - name: BackGround
     uniqueID: 3961668165
     locked: 0
-  - name: 2
+  - name: Boss
     uniqueID: 2473121239
     locked: 0
-  - name: 3
+  - name: Effect
     uniqueID: 2419050531
     locked: 0
   - name: 4
     uniqueID: 2687515735
     locked: 0
-  - name: 5
+  - name: Player
     uniqueID: 3110658609
+    locked: 0
+  - name: CutScenes
+    uniqueID: 4198870183
     locked: 0
   m_RenderingLayers:
   - Default

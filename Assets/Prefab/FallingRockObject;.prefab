@@ -75,8 +75,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1821846057
-  m_SortingLayer: 2
+  m_SortingLayerID: -1875916765
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 315897909390557317, guid: 543d2cb6359a13a4a9854fc86a6fb357, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -130,6 +130,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetPos: {x: 0, y: 0}
   FallingRockImpactEffect: {fileID: 2459943519104571305, guid: 120af4f0ea55cef4f8786830f60a95fa, type: 3}
-  WarningMark: {fileID: 0}
+  WarningMark: {fileID: 5979165727120289434, guid: 6461f68df5b56d54b9829483a2223447, type: 3}
   ImpactTriggerOffset: 1
   ImpactYOffset: 1

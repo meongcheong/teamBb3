@@ -21,7 +21,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2640342833459280128
 Transform:
   m_ObjectHideFlags: 0
@@ -78,9 +78,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1875916765
-  m_SortingLayer: 3
-  m_SortingOrder: 2
+  m_SortingLayerID: -1184308687
+  m_SortingLayer: 5
+  m_SortingOrder: 1
   m_Sprite: {fileID: -467307283419413426, guid: 2bcedb943d35d934baae9fc48b50b944, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -111,6 +111,9 @@ MonoBehaviour:
   attackCooldown: 0.8
   attackTimer: 0
   attackArea: {fileID: 0}
+  attackOffset: 1
+  hitEffectPrefab: {fileID: 0}
+  effectDestroyTime: 5
 --- !u!114 &979258306912234336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,8 +132,6 @@ MonoBehaviour:
   dashCooldown: 5
   dashUiImage: {fileID: 0}
   skillUiImage: {fileID: 0}
-  imgDown: {fileID: 3583257001652028932, guid: 2bcedb943d35d934baae9fc48b50b944, type: 3}
-  imgRight: {fileID: -467307283419413426, guid: 2bcedb943d35d934baae9fc48b50b944, type: 3}
   lastDir: {x: 0, y: 0, z: 0}
   inputVec: {x: 0, y: 0, z: 0}
 --- !u!114 &6930180031608738463
